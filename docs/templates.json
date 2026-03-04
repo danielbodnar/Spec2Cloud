@@ -72,8 +72,8 @@
     ],
     "category": "AI Apps & Agents",
     "industry": "Cross-Industry",
-    "stars": 0,
-    "forks": 0,
+    "stars": 6,
+    "forks": 2,
     "services": [
       "Microsoft Foundry",
       "Azure Container Apps"
@@ -125,7 +125,8 @@
       "knowledge-testing",
       "langgraph",
       "agentic-ai"
-    ]
+    ],
+    "last-commit-date": "2026-01-07T10:11:55Z"
   },
   "emeaappgbb-spec2cloud-call-center-agents": {
     "title": "Call Center Agents",
@@ -137,7 +138,7 @@
     "category": "AI Apps & Agents",
     "industry": "Cross-Industry",
     "stars": 0,
-    "forks": 0,
+    "forks": 1,
     "services": [
       "Azure AI Foundry",
       "Azure Cosmos DB",
@@ -162,6 +163,7 @@
     ],
     "thumbnail": "docs/media/customer-support.png",
     "video": "docs/media/call-center-demo.mp4",
-    "version": 0.1
+    "version": 0.1,
+    "last-commit-date": "2026-01-16T13:03:58Z"
   }
 }
