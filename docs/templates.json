@@ -9,7 +9,7 @@
     "category": "AI Apps & Agents",
     "industry": "Cross-Industry",
     "stars": 0,
-    "forks": 1,
+    "forks": 0,
     "services": [
       "Microsoft Foundry",
       "Azure Container Apps",
@@ -29,8 +29,7 @@
     ],
     "extensions": [],
     "tags": [],
-    "version": "1.0.0",
-    "last-commit-date": "2025-12-16T20:27:32Z"
+    "version": "1.0.0"
   },
   "emeaappgbb-spec2cloud-weather-agent": {
     "title": "Weather Agent",
@@ -125,8 +124,7 @@
       "knowledge-testing",
       "langgraph",
       "agentic-ai"
-    ],
-    "last-commit-date": "2026-01-07T10:11:55Z"
+    ]
   },
   "emeaappgbb-spec2cloud-call-center-agents": {
     "title": "Call Center Agents",
@@ -138,7 +136,7 @@
     "category": "AI Apps & Agents",
     "industry": "Cross-Industry",
     "stars": 0,
-    "forks": 1,
+    "forks": 0,
     "services": [
       "Azure AI Foundry",
       "Azure Cosmos DB",
@@ -163,8 +161,7 @@
     ],
     "thumbnail": "docs/media/customer-support.png",
     "video": "docs/media/call-center-demo.mp4",
-    "version": 0.1,
-    "last-commit-date": "2026-01-16T13:03:58Z"
+    "version": 0.1
   },
   "emeaappgbb-appmodlab-dotnet-4to10-contosouniversity-spec2cloud": {
     "title": "Contoso University - .NET 4.8 → 10 Modernization with Spec2Cloud",
