@@ -234,7 +234,7 @@
       "cloud-migration"
     ],
     "thumbnail": "https://raw.githubusercontent.com/EmeaAppGbb/AppModLab-java-8to21-AssetsManager-spec2cloud/refs/heads/main/img/repo-banner.png",
-    "last-commit-date": "2026-03-31T09:20:30Z"
+    "last-commit-date": "2026-04-16T15:22:52Z"
   },
   "emeaappgbb-appmodlab-node-16to22-hackmanager-spec2cloud": {
     "title": "HackManager Node 16→22 Modernization with Spec2Cloud",
@@ -271,6 +271,6 @@
       "Hackathon"
     ],
     "thumbnail": "https://raw.githubusercontent.com/EmeaAppGbb/AppModLab-node-16to22-HackManager-spec2cloud/refs/heads/main/img/repo-banner.png",
-    "last-commit-date": "2026-03-31T09:20:52Z"
+    "last-commit-date": "2026-04-16T15:23:26Z"
   }
 }
