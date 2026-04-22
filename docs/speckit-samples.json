@@ -1,0 +1,92 @@
+{
+  "constitution": {
+    "command": "/speckit.constitution",
+    "description": "Define the foundational principles for your project",
+    "samples": [
+      {
+        "name": "Standard",
+        "prompt": "Create principles focused on code quality, testing standards, user experience consistency, and performance requirements"
+      },
+      {
+        "name": "Minimal",
+        "prompt": "Create minimal principles focused on essential code quality and basic testing"
+      },
+      {
+        "name": "Security focused",
+        "prompt": "Create principles focused on security best practices, threat modeling, input validation, authentication, and compliance requirements"
+      }
+    ]
+  },
+  "specify": {
+    "command": "/speckit.specify",
+    "description": "Create a detailed specification for a feature or component",
+    "samples": [
+      {
+        "name": "API endpoint",
+        "prompt": "Specify a REST API endpoint for user authentication with JWT tokens, including request/response schemas, error handling, and rate limiting"
+      },
+      {
+        "name": "UI component",
+        "prompt": "Specify a reusable data table component with sorting, filtering, pagination, and row selection support"
+      },
+      {
+        "name": "Background service",
+        "prompt": "Specify a background job processor that handles queued tasks with retry logic, dead-letter handling, and observability"
+      }
+    ]
+  },
+  "plan": {
+    "command": "/speckit.plan",
+    "description": "Generate an implementation plan from your specifications",
+    "samples": [
+      {
+        "name": "Full stack",
+        "prompt": "Create an implementation plan covering API, frontend, database migrations, and infrastructure changes"
+      },
+      {
+        "name": "Incremental",
+        "prompt": "Create a phased implementation plan with small deliverable milestones and rollback points"
+      },
+      {
+        "name": "Migration",
+        "prompt": "Create a migration plan to move from the current architecture to the target state with zero downtime"
+      }
+    ]
+  },
+  "tasks": {
+    "command": "/speckit.tasks",
+    "description": "Break down the plan into actionable development tasks",
+    "samples": [
+      {
+        "name": "Sprint ready",
+        "prompt": "Break down the plan into sprint-ready tasks with acceptance criteria and estimated complexity"
+      },
+      {
+        "name": "Parallel tracks",
+        "prompt": "Create parallel task tracks for frontend and backend work with clear integration points"
+      },
+      {
+        "name": "Test driven",
+        "prompt": "Generate tasks that start with test definitions before implementation, following TDD methodology"
+      }
+    ]
+  },
+  "implement": {
+    "command": "/speckit.implement",
+    "description": "Implement the code based on specs, plan, and tasks",
+    "samples": [
+      {
+        "name": "Next task",
+        "prompt": "Implement the next pending task from the task list following the spec and plan"
+      },
+      {
+        "name": "With tests",
+        "prompt": "Implement the next task with unit tests and integration tests following the project's testing standards"
+      },
+      {
+        "name": "Infrastructure",
+        "prompt": "Implement the infrastructure-as-code changes defined in the plan using Bicep and azd"
+      }
+    ]
+  }
+}

@@ -2,11 +2,17 @@
 let allTemplates = [];
 let featuredTemplateIds = [];
 let filteredTemplates = [];
+let speckitSamples = {};
+let nativeSamples = {};
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
     initializeTheme();
+    initializeNavigation();
+    renderAllSteps();
+    initializeConfig();
+    buildStepNav();
     renderFeaturedTemplates();
     buildFilterOptions();
     renderGallery();
@@ -17,13 +23,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Load templates.json and featured-templates.json
 async function loadData() {
     try {
-        const [templatesResponse, featuredResponse] = await Promise.all([
+        const [templatesResponse, featuredResponse, speckitResponse, nativeResponse] = await Promise.all([
             fetch('./templates.json'),
-            fetch('./featured-templates.json')
+            fetch('./featured-templates.json'),
+            fetch('./speckit-samples.json'),
+            fetch('./native-toolkit-samples.json')
         ]);
 
         const templatesData = await templatesResponse.json();
         featuredTemplateIds = await featuredResponse.json();
+        speckitSamples = await speckitResponse.json();
+        nativeSamples = await nativeResponse.json();
 
         // Convert templates object to array
         allTemplates = Object.entries(templatesData).map(([key, value]) => ({
@@ -51,6 +61,257 @@ function toggleTheme() {
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+}
+
+// Page navigation
+function initializeNavigation() {
+    document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const page = link.dataset.page;
+            switchPage(page);
+        });
+    });
+
+    // Set prereq count badge
+    const prereqCount = document.querySelectorAll('.prereq-card').length;
+    const badge = document.getElementById('prereq-count');
+    if (badge) badge.textContent = prereqCount + ' tools';
+
+    // Handle hash on load
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById('page-' + hash)) {
+        switchPage(hash);
+    }
+}
+
+function switchPage(page) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+    // Show selected page
+    const target = document.getElementById('page-' + page);
+    if (target) target.style.display = '';
+
+    // Update nav links
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.page === page);
+    });
+
+    window.location.hash = page === 'sdd-process' ? '' : page;
+}
+
+// Prereq dropdown
+function togglePrereqDropdown(e) {
+    e.stopPropagation();
+    const dropdown = e.currentTarget.closest('.prereq-dropdown');
+    dropdown.classList.toggle('open');
+}
+
+document.addEventListener('click', () => {
+    document.querySelectorAll('.prereq-dropdown.open').forEach(d => d.classList.remove('open'));
+});
+
+// Copy command to clipboard
+function copyCommand(btn) {
+    const code = btn.closest('.command-line').querySelector('code').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+        btn.classList.add('copied');
+        setTimeout(() => btn.classList.remove('copied'), 1500);
+    });
+}
+
+// Configure choices
+function initializeConfig() {
+    // Restore saved choices
+    document.querySelectorAll('.configure-choices').forEach(group => {
+        const groupName = group.querySelector('.choice-btn')?.dataset.group;
+        if (!groupName) return;
+        const saved = localStorage.getItem('config-' + groupName);
+        if (saved) {
+            group.querySelectorAll('.choice-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.value === saved);
+            });
+        }
+    });
+
+    // Attach click handlers
+    document.querySelectorAll('.choice-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const group = btn.dataset.group;
+            document.querySelectorAll(`.choice-btn[data-group="${group}"]`).forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            localStorage.setItem('config-' + group, btn.dataset.value);
+            if (group === 'toolkit') updateToolkitVisibility(btn.dataset.value);
+            if (group === 'editor') {
+                updateEditorLabel(btn.textContent.trim());
+                updateEditorLinks(btn.dataset.value);
+            }
+            if (group !== 'toolkit' && group !== 'editor') updateSampleVisibility(group, btn.dataset.value);
+        });
+    });
+
+    // Apply initial visibility
+    const activeToolkit = document.querySelector('.choice-btn[data-group="toolkit"].active');
+    if (activeToolkit) updateToolkitVisibility(activeToolkit.dataset.value);
+
+    const activeEditor = document.querySelector('.choice-btn[data-group="editor"].active');
+    if (activeEditor) {
+        updateEditorLabel(activeEditor.textContent.trim());
+        updateEditorLinks(activeEditor.dataset.value);
+    }
+
+    // Apply initial visibility for all sample groups (from dynamically rendered steps)
+    const renderedGroups = new Set();
+    document.querySelectorAll('.configure-choices .choice-btn[data-group]').forEach(btn => {
+        renderedGroups.add(btn.dataset.group);
+    });
+    renderedGroups.forEach(group => {
+        if (group === 'toolkit' || group === 'editor') return;
+        const activeBtn = document.querySelector(`.choice-btn[data-group="${group}"].active`);
+        if (activeBtn) updateSampleVisibility(group, activeBtn.dataset.value);
+    });
+}
+
+function updateToolkitVisibility(toolkit) {
+    // Toggle toolkit-scoped sections (entire workflow sections)
+    document.querySelectorAll('section.workflow-section[data-toolkit]').forEach(section => {
+        section.style.display = section.dataset.toolkit === toolkit ? '' : 'none';
+    });
+    // Toggle standalone command blocks (e.g. Initialize step)
+    document.querySelectorAll('.command-block[data-toolkit]').forEach(block => {
+        if (block.closest('section.workflow-section[data-toolkit]')) return; // handled above
+        block.style.display = block.dataset.toolkit === toolkit ? '' : 'none';
+    });
+    // Ensure first sample is selected for each visible step
+    document.querySelectorAll('section.workflow-section').forEach(section => {
+        if (section.style.display === 'none') return;
+        section.querySelectorAll('.configure-choices').forEach(choices => {
+            const btns = choices.querySelectorAll('.choice-btn');
+            if (btns.length === 0) return;
+            const hasActive = [...btns].some(b => b.classList.contains('active'));
+            if (!hasActive) {
+                btns[0].classList.add('active');
+            }
+            const activeBtn = choices.querySelector('.choice-btn.active');
+            if (activeBtn) updateSampleVisibility(activeBtn.dataset.group, activeBtn.dataset.value);
+        });
+    });
+    // Rebuild step navigation for the active toolkit
+    buildStepNav();
+}
+
+// Build step navigation from visible step sections
+function buildStepNav() {
+    const nav = document.getElementById('step-nav');
+    if (!nav) return;
+
+    const steps = [];
+    document.querySelectorAll('#page-sdd-process section.workflow-section .step-panel').forEach(panel => {
+        const section = panel.closest('section.workflow-section');
+        // Skip hidden toolkit sections
+        if (section.dataset.toolkit && section.style.display === 'none') return;
+        const number = panel.querySelector('.step-number')?.textContent;
+        const title = panel.querySelector('.step-title')?.textContent;
+        if (number && title) {
+            steps.push({ number, title, section });
+        }
+    });
+
+    nav.innerHTML = steps.map((step, i) => {
+        const connector = i < steps.length - 1 ? '<span class="step-nav-connector">→</span>' : '';
+        return `<a class="step-nav-item" data-step-index="${i}"><span class="step-nav-number">${step.number}</span>${step.title}</a>${connector}`;
+    }).join('');
+
+    // Attach click handlers to scroll to the section
+    nav.querySelectorAll('.step-nav-item').forEach((item, i) => {
+        item.addEventListener('click', () => {
+            const target = steps[i].section;
+            const details = target.querySelector('details');
+            if (details && !details.open) details.open = true;
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+}
+
+function updateEditorLabel(name) {
+    document.querySelectorAll('.editor-name-label').forEach(el => {
+        el.textContent = name;
+    });
+}
+
+function updateEditorLinks(editorValue) {
+    const schemeMap = {
+        'vscode': 'vscode',
+        'insiders': 'vscode-insiders'
+    };
+    const scheme = schemeMap[editorValue];
+
+    document.querySelectorAll('.editor-open-btn').forEach(btn => {
+        if (!scheme) {
+            btn.classList.add('hidden');
+            return;
+        }
+        btn.classList.remove('hidden');
+        btn.classList.remove('editor-vscode', 'editor-insiders');
+        btn.classList.add(editorValue === 'insiders' ? 'editor-insiders' : 'editor-vscode');
+        const command = btn.dataset.command;
+        btn.href = `${scheme}://github.copilot-chat/chat?prompt=${encodeURIComponent(command)}`;
+    });
+}
+
+function updateSampleVisibility(group, value) {
+    document.querySelectorAll(`[data-${group}]`).forEach(block => {
+        block.style.display = block.getAttribute('data-' + group) === value ? '' : 'none';
+    });
+}
+
+// Render all steps for both toolkits
+function renderAllSteps() {
+    // Spec Kit steps
+    const speckitSteps = ['constitution', 'specify', 'plan', 'tasks', 'implement'];
+    speckitSteps.forEach(step => renderStepFromSamples(speckitSamples[step], 'step-' + step));
+
+    // Native Toolkit steps
+    const nativeSteps = ['write-prd', 'spec-refinement', 'ux-design', 'increment-planning', 'test-scaffolding', 'implementation', 'deploy'];
+    nativeSteps.forEach(step => renderStepFromSamples(nativeSamples[step], 'step-' + step));
+}
+
+// Render a single step from sample data into a container
+function renderStepFromSamples(data, containerId) {
+    if (!data || !data.samples || data.samples.length === 0) return;
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const copyIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    const openIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>';
+
+    const groupName = containerId.replace('step-', '');
+
+    const buttonsHtml = data.samples.map((sample, i) => {
+        const value = sample.name.toLowerCase().replace(/\s+/g, '-');
+        const active = i === 0 ? ' active' : '';
+        return `<button class="choice-btn${active}" data-group="${groupName}" data-value="${value}">${sample.name}</button>`;
+    }).join('');
+
+    const blocksHtml = data.samples.map((sample, i) => {
+        const value = sample.name.toLowerCase().replace(/\s+/g, '-');
+        const fullCommand = `${data.command} ${sample.prompt}`;
+        const display = i === 0 ? '' : ' style="display:none"';
+        return `<div class="command-block" data-${groupName}="${value}"${display}>
+                <div class="command-line">
+                    <code><span class="command-keyword">${data.command}</span> ${sample.prompt}</code>
+                    <button class="copy-btn" onclick="copyCommand(this)" aria-label="Copy command">${copyIcon}</button>
+                    <a class="editor-open-btn" href="#" target="_blank" data-command="${fullCommand}" aria-label="Open in editor">${openIcon}</a>
+                </div>
+            </div>`;
+    }).join('');
+
+    container.innerHTML = `
+        <div class="step-inline-options">
+            <label class="configure-label">Samples</label>
+            <div class="configure-choices" id="${groupName}-choices">${buttonsHtml}</div>
+        </div>
+        <div class="step-commands">${blocksHtml}</div>`;
 }
 
 // Render featured templates

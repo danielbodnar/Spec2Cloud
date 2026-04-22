@@ -1,0 +1,108 @@
+{
+  "write-prd": {
+    "command": "",
+    "description": "Write your PRD and kick off the orchestrator",
+    "samples": [
+      {
+        "name": "Start flow",
+        "prompt": "I want to start the spec2cloud flow, the PRD is already created, lets start with the review process and continue"
+      },
+      {
+        "name": "Review PRD",
+        "prompt": "Review the PRD and flag any gaps, ambiguities, or missing user stories before we proceed"
+      }
+    ]
+  },
+  "spec-refinement": {
+    "command": "",
+    "description": "Review PRD through product and technical lenses, split into FRDs",
+    "samples": [
+      {
+        "name": "Full refinement",
+        "prompt": "Review my PRD through product and technical lenses, split it into FRDs, and flag any gaps or ambiguities"
+      },
+      {
+        "name": "Review FRDs",
+        "prompt": "Review each FRD with the same rigour as the PRD — ensure every user story has clear acceptance criteria"
+      }
+    ]
+  },
+  "ux-design": {
+    "command": "",
+    "description": "Generate interactive HTML wireframe prototypes from FRDs",
+    "samples": [
+      {
+        "name": "Generate wireframes",
+        "prompt": "Generate interactive HTML wireframe prototypes from the FRDs and serve them on localhost for review"
+      },
+      {
+        "name": "DDD modeling",
+        "prompt": "Run DDD modeling to produce domain proposals, domain model, and database model with bounded contexts"
+      }
+    ]
+  },
+  "increment-planning": {
+    "command": "",
+    "description": "Break FRDs into ordered increments and resolve tech stack",
+    "samples": [
+      {
+        "name": "Plan increments",
+        "prompt": "Break the FRDs into ordered increments starting with a walking skeleton, then feature slices"
+      },
+      {
+        "name": "Tech stack",
+        "prompt": "Inventory and research all libraries via live docs, pin versions, and produce tech-stack.md with ADRs"
+      }
+    ]
+  },
+  "test-scaffolding": {
+    "command": "",
+    "description": "Derive tests from FRD acceptance criteria before implementation",
+    "samples": [
+      {
+        "name": "Full test suite",
+        "prompt": "Derive test suite from FRD acceptance criteria: Gherkin feature files, Playwright e2e tests, Cucumber step definitions, and unit tests"
+      },
+      {
+        "name": "Red baseline",
+        "prompt": "Establish red baseline: verify all new tests fail (proving they are real) and existing tests still pass"
+      },
+      {
+        "name": "Contracts",
+        "prompt": "Generate API contracts, shared TypeScript types, and infrastructure requirements from the test specifications"
+      }
+    ]
+  },
+  "implementation": {
+    "command": "",
+    "description": "Implement code in slices (API, Web, Integration) until green",
+    "samples": [
+      {
+        "name": "Full increment",
+        "prompt": "Implement the next increment: API slice, Web slice, then integration — run full regression until green"
+      },
+      {
+        "name": "API slice",
+        "prompt": "Implement the API slice: routes, data store, input validation, and make API tests green"
+      },
+      {
+        "name": "Web slice",
+        "prompt": "Implement the Web slice: pages, components, forms, and make frontend tests green"
+      }
+    ]
+  },
+  "deploy": {
+    "command": "",
+    "description": "Provision Azure infrastructure and deploy, then run smoke tests",
+    "samples": [
+      {
+        "name": "Provision & deploy",
+        "prompt": "azd provision && azd deploy"
+      },
+      {
+        "name": "Smoke test",
+        "prompt": "azd env get-values | grep SERVICE_WEB_ENDPOINT_URL"
+      }
+    ]
+  }
+}
