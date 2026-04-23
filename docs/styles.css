@@ -1898,10 +1898,15 @@ body {
 }
 
 .step-nav-item.active {
-    color: var(--accent-primary);
+    color: #fff;
     border-color: var(--accent-primary);
-    background: var(--bg-tertiary);
+    background: var(--accent-primary);
     font-weight: 600;
+}
+
+.step-nav-item.active .step-nav-number {
+    background: #fff;
+    color: var(--accent-primary);
 }
 
 .step-nav-item .step-nav-number {

@@ -202,16 +202,9 @@ function updateToolkitVisibility(toolkit) {
 }
 
 // Build step navigation from visible step sections
-let stepNavObserver = null;
 function buildStepNav() {
     const nav = document.getElementById('step-nav');
     if (!nav) return;
-
-    // Clean up previous observer
-    if (stepNavObserver) {
-        stepNavObserver.disconnect();
-        stepNavObserver = null;
-    }
 
     const steps = [];
     document.querySelectorAll('#page-sdd-process section.workflow-section .step-panel').forEach(panel => {
@@ -225,8 +218,15 @@ function buildStepNav() {
         }
     });
 
+    // Determine which step is currently open
+    let activeIndex = steps.findIndex(s => {
+        const d = s.section.querySelector('details.step-panel');
+        return d && d.open;
+    });
+    if (activeIndex < 0) activeIndex = 0;
+
     nav.innerHTML = steps.map((step, i) => {
-        const active = i === 0 ? ' active' : '';
+        const active = i === activeIndex ? ' active' : '';
         const connector = i < steps.length - 1 ? '<span class="step-nav-connector">→</span>' : '';
         return `<a class="step-nav-item${active}" data-step-index="${i}"><span class="step-nav-number">${step.number}</span>${step.title}</a>${connector}`;
     }).join('');
@@ -247,21 +247,6 @@ function buildStepNav() {
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     });
-
-    // IntersectionObserver to highlight active step as user scrolls
-    stepNavObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const idx = steps.findIndex(s => s.section === entry.target);
-                if (idx >= 0) {
-                    navItems.forEach(n => n.classList.remove('active'));
-                    navItems[idx]?.classList.add('active');
-                }
-            }
-        });
-    }, { rootMargin: '-140px 0px -60% 0px', threshold: 0 });
-
-    steps.forEach(s => stepNavObserver.observe(s.section));
 }
 
 // Accordion behavior — close other step panels when one opens
@@ -270,9 +255,27 @@ function initializeAccordion() {
         details.addEventListener('toggle', () => {
             if (details.open) {
                 closeOtherStepPanels(details.closest('section.workflow-section'), details);
+                updateStepNavActive(details.closest('section.workflow-section'));
             }
         });
     });
+}
+
+function updateStepNavActive(activeSection) {
+    const nav = document.getElementById('step-nav');
+    if (!nav) return;
+    const items = nav.querySelectorAll('.step-nav-item');
+    const sections = [];
+    document.querySelectorAll('#page-sdd-process section.workflow-section .step-panel').forEach(panel => {
+        const section = panel.closest('section.workflow-section');
+        if (section.dataset.toolkit && section.style.display === 'none') return;
+        sections.push(section);
+    });
+    const idx = sections.indexOf(activeSection);
+    if (idx >= 0) {
+        items.forEach(n => n.classList.remove('active'));
+        items[idx]?.classList.add('active');
+    }
 }
 
 function closeOtherStepPanels(activeSection, activeDetails) {
