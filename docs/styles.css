@@ -1411,7 +1411,7 @@ body {
 /* Workflow Section */
 .workflow-section {
     padding: var(--spacing-xl) 0 0;
-    scroll-margin-top: 80px;
+    scroll-margin-top: 130px;
 }
 
 /* Prerequisites Panel */
@@ -1856,12 +1856,22 @@ body {
 }
 
 /* Step Navigation */
+.step-nav-section {
+    position: sticky;
+    top: 65px;
+    z-index: 90;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-xs) 0;
+}
+
 .step-nav {
     display: flex;
     align-items: center;
     gap: 4px;
-    padding: var(--spacing-sm) 0;
+    padding: var(--spacing-xs) 0;
     overflow-x: auto;
+    flex-wrap: wrap;
 }
 
 .step-nav-item {
@@ -1885,6 +1895,13 @@ body {
     color: var(--accent-primary);
     border-color: var(--accent-primary);
     background: var(--bg-tertiary);
+}
+
+.step-nav-item.active {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+    background: var(--bg-tertiary);
+    font-weight: 600;
 }
 
 .step-nav-item .step-nav-number {
@@ -2035,6 +2052,21 @@ body {
     .modal-actions a {
         width: 100%;
         text-align: center;
+    }
+
+    /* Step nav: hide labels on mobile, show numbers only */
+    .step-nav-item {
+        padding: 4px 8px;
+        font-size: 0;
+        gap: 0;
+    }
+
+    .step-nav-item .step-nav-number {
+        font-size: 0.7rem;
+    }
+
+    .step-nav-connector {
+        font-size: 0.6rem;
     }
 
     /* Hide "View on GitHub" text on mobile, keep icon */

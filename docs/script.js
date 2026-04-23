@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderAllSteps();
     initializeConfig();
     buildStepNav();
+    initializeAccordion();
     renderFeaturedTemplates();
     buildFilterOptions();
     renderGallery();
@@ -201,9 +202,16 @@ function updateToolkitVisibility(toolkit) {
 }
 
 // Build step navigation from visible step sections
+let stepNavObserver = null;
 function buildStepNav() {
     const nav = document.getElementById('step-nav');
     if (!nav) return;
+
+    // Clean up previous observer
+    if (stepNavObserver) {
+        stepNavObserver.disconnect();
+        stepNavObserver = null;
+    }
 
     const steps = [];
     document.querySelectorAll('#page-sdd-process section.workflow-section .step-panel').forEach(panel => {
@@ -218,18 +226,62 @@ function buildStepNav() {
     });
 
     nav.innerHTML = steps.map((step, i) => {
+        const active = i === 0 ? ' active' : '';
         const connector = i < steps.length - 1 ? '<span class="step-nav-connector">→</span>' : '';
-        return `<a class="step-nav-item" data-step-index="${i}"><span class="step-nav-number">${step.number}</span>${step.title}</a>${connector}`;
+        return `<a class="step-nav-item${active}" data-step-index="${i}"><span class="step-nav-number">${step.number}</span>${step.title}</a>${connector}`;
     }).join('');
 
-    // Attach click handlers to scroll to the section
-    nav.querySelectorAll('.step-nav-item').forEach((item, i) => {
+    const navItems = nav.querySelectorAll('.step-nav-item');
+
+    // Attach click handlers — accordion open + scroll
+    navItems.forEach((item, i) => {
         item.addEventListener('click', () => {
             const target = steps[i].section;
+            // Close other step panels (accordion)
+            closeOtherStepPanels(target);
             const details = target.querySelector('details');
             if (details && !details.open) details.open = true;
+            // Set active nav item immediately
+            navItems.forEach(n => n.classList.remove('active'));
+            item.classList.add('active');
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
+    });
+
+    // IntersectionObserver to highlight active step as user scrolls
+    stepNavObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const idx = steps.findIndex(s => s.section === entry.target);
+                if (idx >= 0) {
+                    navItems.forEach(n => n.classList.remove('active'));
+                    navItems[idx]?.classList.add('active');
+                }
+            }
+        });
+    }, { rootMargin: '-140px 0px -60% 0px', threshold: 0 });
+
+    steps.forEach(s => stepNavObserver.observe(s.section));
+}
+
+// Accordion behavior — close other step panels when one opens
+function initializeAccordion() {
+    document.querySelectorAll('#page-sdd-process .step-panel').forEach(details => {
+        details.addEventListener('toggle', () => {
+            if (details.open) {
+                closeOtherStepPanels(details.closest('section.workflow-section'), details);
+            }
+        });
+    });
+}
+
+function closeOtherStepPanels(activeSection, activeDetails) {
+    document.querySelectorAll('#page-sdd-process section.workflow-section .step-panel').forEach(d => {
+        const section = d.closest('section.workflow-section');
+        if (section.style.display === 'none') return;
+        if (activeDetails && d === activeDetails) return;
+        if (!activeDetails && section === activeSection) return;
+        if (d.open) d.open = false;
     });
 }
 
