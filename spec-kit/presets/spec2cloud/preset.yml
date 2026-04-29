@@ -1,0 +1,101 @@
+schema_version: "1.0"
+
+preset:
+  id: "spec2cloud"
+  name: "Spec2Cloud preset"
+  version: "0.1.0"
+  description: "Spec-driven workflow tuned for shipping to Azure: constitution → specify → clarify → plan → tasks → implement → verify → deploy."
+  author: "Azure Samples"
+  repository: "https://github.com/Azure-Samples/Spec2Cloud"
+  license: "MIT"
+
+requires:
+  speckit_version: ">=0.6.0"
+
+provides:
+  templates:
+    # `replaces` names the core template each entry overrides.
+    - type: "template"
+      name: "constitution-template"
+      file: "templates/constitution-template.md"
+      description: "Custom feature constitution template"
+      replaces: "constitution-template"
+
+    - type: "template"
+      name: "spec-template"
+      file: "templates/spec-template.md"
+      description: "Custom feature specification template"
+      replaces: "spec-template"
+
+    - type: "template"
+      name: "plan-template"
+      file: "templates/plan-template.md"
+      description: "Custom feature plan template"
+      replaces: "plan-template"
+
+    - type: "template"
+      name: "tasks-template"
+      file: "templates/tasks-template.md"
+      description: "Custom feature tasks template"
+      replaces: "tasks-template"
+
+    - type: "template"
+      name: "checklist-template"
+      file: "templates/checklist-template.md"
+      description: "Custom feature checklist template"
+      replaces: "checklist-template"
+
+    - type: "command"
+      name: "speckit.constitution"
+      file: "commands/speckit.constitution.md"
+      description: "Create or update the project constitution (principles, non-negotiables, out-of-scope)."
+      replaces: "speckit.constitution"
+
+    - type: "command"
+      name: "speckit.specify"
+      file: "commands/speckit.specify.md"
+      description: "Create spec.md from a feature description."
+      replaces: "speckit.specify"
+
+    - type: "command"
+      name: "speckit.plan"
+      file: "commands/speckit.plan.md"
+      description: "Create plan.md (technical context, architecture, design decisions) from the spec."
+      replaces: "speckit.plan"
+
+    - type: "command"
+      name: "speckit.tasks"
+      file: "commands/speckit.tasks.md"
+      description: "Create tasks.md and tasks.json (dependency-ordered, phase-grouped) from plan and spec."
+      replaces: "speckit.tasks"
+
+    - type: "command"
+      name: "speckit.implement"
+      file: "commands/speckit.implement.md"
+      description: "Execute pending tasks from tasks.md / tasks.json, updating both on completion."
+      replaces: "speckit.implement"
+
+    - type: "command"
+      name: "speckit.analyze"
+      file: "commands/speckit.analyze.md"
+      description: "Read-only consistency, coverage, and Azure-readiness analysis across constitution, spec, plan, and tasks."
+      replaces: "speckit.analyze"
+
+    - type: "command"
+      name: "speckit.checklist"
+      file: "commands/speckit.checklist.md"
+      description: "Generate a domain-focused checklist that validates the quality of the requirements (completeness, clarity, consistency, measurability, coverage) — not the implementation."
+      replaces: "speckit.checklist"
+
+    - type: "command"
+      name: "speckit.clarify"
+      file: "commands/speckit.clarify.md"
+      description: "Ask up to 5 targeted clarification questions to resolve ambiguity in the spec, then write the answers back into spec.md."
+      replaces: "speckit.clarify"
+
+tags:
+  - "spec2cloud"
+  - "azure"
+  - "cloud"
+  - "deploy"
+  - "workflow"

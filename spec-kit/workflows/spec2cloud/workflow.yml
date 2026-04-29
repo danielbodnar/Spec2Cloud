@@ -1,0 +1,111 @@
+schema_version: "1.0"
+
+workflow:
+  id: "spec2cloud"
+  name: "Spec2Cloud workflow"
+  version: "0.1.0"
+  author: "Azure Samples"
+  repository: "https://github.com/Azure-Samples/Spec2Cloud"
+  description: "Full spec-driven cycle (constitution → specify → clarify → plan → tasks → implement → verify → deploy) targeting Azure, with a review gate at every artifact handoff."
+
+requires:
+  speckit_version: ">=0.7.2"
+  integrations: "copilot"
+  presets: "spec2cloud"
+  extensions: "spec2cloud"
+
+inputs:
+  spec:
+    type: string
+    required: true
+    prompt: "Describe what you want to build"
+
+  scope:
+    type: string
+    default: "full"
+    enum: ["full", "backend-only", "frontend-only"]
+
+steps:
+  - id: constitution
+    command: speckit.constitution
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: review-constitution
+    type: gate
+    message: "Review the project constitution (principles, non-negotiable rules, out-of-scope) before specifying the feature."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: specify
+    command: speckit.specify
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: review-spec
+    type: gate
+    message: "Review the generated spec before clarifying."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: clarify
+    command: speckit.clarify
+    input:
+      args: ""
+
+  - id: review-clarify
+    type: gate
+    message: "Review the clarified spec before planning."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: plan
+    command: speckit.plan
+    input:
+      args: ""
+
+  - id: review-plan
+    type: gate
+    message: "Review the plan (architecture, Azure services, design decisions) before generating tasks."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: tasks
+    command: speckit.tasks
+    input:
+      args: ""
+
+  - id: review-tasks
+    type: gate
+    message: "Review tasks.md / tasks.json before implementation begins."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: implement
+    command: speckit.implement
+    input:
+      args: ""
+
+  - id: verify
+    command: speckit.verify
+    input:
+      args: ""
+
+  - id: verify-implementation
+    type: gate
+    message: "Verify the implementation before deploying to Azure."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: deploy
+    command: speckit.deploy
+    input:
+      args: ""
+
+tags:
+  - spec2cloud
+  - azure
+  - cloud
+  - deploy
+  - sdd
+
