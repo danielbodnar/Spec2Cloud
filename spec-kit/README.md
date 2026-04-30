@@ -33,9 +33,10 @@ Download the latest combined release: <https://github.com/Azure-Samples/Spec2Clo
 **Use the latest release:**
 
 ```shell
-specify init . --integration copilot --integration-options="--skills" --preset spec2cloud
-specify extension add spec2cloud
-specify workflow add spec2cloud
+specify init . --integration copilot --integration-options="--skills"
+specify preset add spec2cloud --from https://aka.ms/spec2cloud/spec-kit-preset
+specify extension add spec2cloud --from https://aka.ms/spec2cloud/spec-kit-extension
+specify workflow add https://aka.ms/spec2cloud/spec-kit-workflow
 ```
 
 **Use a specific release:**
