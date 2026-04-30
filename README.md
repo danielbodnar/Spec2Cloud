@@ -2,9 +2,11 @@
 
 **Accelerate your Azure development with production-ready templates**
 
-![Spec2Cloud](spec2cloud.png)
+![Spec2Cloud](docs/images/spec2cloud-banner.png)
 
 Spec2Cloud is a curated catalog of production-ready templates designed to help developers quickly build and deploy Azure applications. Whether you're building AI agents, modernizing applications, or creating data-centric solutions, Spec2Cloud provides the templates and tools to get you started faster.
+
+![Spec2Cloud](docs/images/spec2cloud.png)
 
 ---
 
