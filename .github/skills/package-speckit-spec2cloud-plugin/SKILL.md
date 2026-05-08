@@ -1,11 +1,11 @@
 ---
-name: package-speckit-plugin
-description: Package the Spec2Cloud spec-kit (preset + extension) as a single VS Code agent plugin under `plugins/spec2cloud/`. Use whenever the user wants to package, build, generate, refresh, or rebuild the spec-kit as an agent plugin, mentions "agent plugin", "VS Code plugin", "package the spec-kit", "publish skills as a plugin", or asks to mirror the preset/extension commands into the plugin layout described at https://code.visualstudio.com/docs/copilot/customization/agent-plugins.
+name: package-speckit-spec2cloud-plugin
+description: Package the Spec2Cloud spec-kit (preset + extension) as a single VS Code agent plugin under `plugins/speckit-spec2cloud/`. Use whenever the user wants to package, build, generate, refresh, or rebuild the spec-kit as an agent plugin, mentions "agent plugin", "VS Code plugin", "package the spec-kit", "publish skills as a plugin", or asks to mirror the preset/extension commands into the plugin layout described at https://code.visualstudio.com/docs/copilot/customization/agent-plugins.
 ---
 
 # Package spec-kit as a VS Code agent plugin
 
-This skill mirrors the Spec2Cloud spec-kit (the **preset** at `spec-kit/presets/spec2cloud/` and the **extension** at `spec-kit/extensions/spec2cloud/`) into a VS Code agent plugin at `plugins/spec2cloud/`. Each spec-kit command becomes a skill folder; each referenced template is copied into that skill's `assets/` directory; cross-references are rewritten to use the plugin skill names.
+This skill mirrors the Spec2Cloud spec-kit (the **preset** at `spec-kit/presets/spec2cloud/` and the **extension** at `spec-kit/extensions/spec2cloud/`) into a VS Code agent plugin at `plugins/speckit-spec2cloud`. Each spec-kit command becomes a skill folder; each referenced template is copied into that skill's `assets/` directory; cross-references are rewritten to use the plugin skill names.
 
 The plugin format follows the VS Code agent-plugins documentation: <https://code.visualstudio.com/docs/copilot/customization/agent-plugins>.
 
@@ -19,7 +19,7 @@ The plugin format follows the VS Code agent-plugins documentation: <https://code
 ## Output layout
 
 ```
-plugins/spec2cloud/
+plugins/speckit-spec2cloud/
 ├── .github/plugin/plugin.json     # Plugin manifest
 ├── README.md                # Plugin overview + skill index
 └── skills/
@@ -90,16 +90,16 @@ Apply the table in order of decreasing source-string length so longer matches re
 
 Create (or refresh) these directories:
 
-- `plugins/spec2cloud/`
-- `plugins/spec2cloud/skills/`
-- `plugins/spec2cloud/skills/<skill-name>/` for every command
-- `plugins/spec2cloud/skills/<skill-name>/assets/` only when the command references one or more templates (see step 5)
+- `plugins/speckit-spec2cloud/`
+- `plugins/speckit-spec2cloud/skills/`
+- `plugins/speckit-spec2cloud/skills/<skill-name>/` for every command
+- `plugins/speckit-spec2cloud/skills/<skill-name>/assets/` only when the command references one or more templates (see step 5)
 
-Do not delete unrelated files. If `plugins/spec2cloud/` already exists with extra content, **ASK** the user whether to clean it before regenerating.
+Do not delete unrelated files. If `plugins/speckit-spec2cloud/` already exists with extra content, **ASK** the user whether to clean it before regenerating.
 
 ### 4. Generate each `SKILL.md`
 
-For every command, write `plugins/spec2cloud/skills/<skill-name>/SKILL.md`:
+For every command, write `plugins/speckit-spec2cloud/skills/<skill-name>/SKILL.md`:
 
 1. Read the source command file.
 2. Strip the existing YAML frontmatter (everything between the first `---` line and the next `---` line, inclusive).
@@ -143,13 +143,13 @@ Source for every template: `spec-kit/presets/spec2cloud/templates/<filename>`. C
   - `.specify/memory/constitution.md` → `specs/constitution.md`
   - `.specify/feature.json` → `specs/feature.json`
   
-### 7. Generate `plugins/spec2cloud/.github/plugin/plugin.json`
+### 7. Generate `plugins/speckit-spec2cloud/.github/plugin/plugin.json`
 
 Write the manifest with the fields VS Code recognizes (per the docs):
 
 ```json
 {
-  "name": "spec2cloud",
+  "name": "speckit-spec2cloud",
   "description": "Spec-driven workflow for shipping to Azure: constitution → specify → clarify → plan → tasks → implement → verify → deploy.",
   "version": "<combined version>",
   "author": { "name": "Azure Samples" },
@@ -160,11 +160,11 @@ Write the manifest with the fields VS Code recognizes (per the docs):
 }
 ```
 
-- `name` MUST be plain kebab-case (`spec2cloud` is valid). Do not use namespace prefixes.
+- `name` MUST be plain kebab-case (`speckit-spec2cloud` is valid). Do not use namespace prefixes.
 - `version`: use the higher of `preset.preset.version` and `extension.extension.version` from the source manifests.
 - `description`: derive from `preset.preset.description`; cap at 1024 chars.
 
-### 7. Generate `plugins/spec2cloud/README.md`
+### 7. Generate `plugins/speckit-spec2cloud/README.md`
 
 Produce a short README that:
 
@@ -177,7 +177,7 @@ Produce a short README that:
 
 After writing all files, verify:
 
-1. Every `plugins/spec2cloud/skills/<dir>/SKILL.md` has frontmatter with `name` matching `<dir>` and a non-empty `description`.
+1. Every `plugins/speckit-spec2cloud/skills/<dir>/SKILL.md` has frontmatter with `name` matching `<dir>` and a non-empty `description`.
 2. Every template referenced inside any `SKILL.md` body resolves to a file under that skill's `assets/`.
 3. No `SKILL.md` body contains an un-rewritten `/speckit.<x>` or `/speckit-spec2cloud-<x>` slash command.
 4. `plugin.json` parses as JSON; `name` is kebab-case; `version` is semver.
@@ -190,13 +190,13 @@ Print a short summary:
 
 - Plugin path, version, skill count.
 - Per skill: source command, template count copied to `assets/`.
-- Any warnings (e.g. extra files in `plugins/spec2cloud/` left intact).
+- Any warnings (e.g. extra files in `plugins/speckit-spec2cloud/` left intact).
 - Suggested next step: register the plugin via `chat.pluginLocations` or publish through a marketplace.
 
 ## Notes & guardrails
 
 - **Idempotent**: regenerating must produce the same byte-for-byte output for unchanged sources. Never inject timestamps or random IDs.
-- **No silent overwrites of unrelated files**: only touch files inside `plugins/spec2cloud/`.
+- **No silent overwrites of unrelated files**: only touch files inside `plugins/speckit-spec2cloud/`.
 - **Follow source naming literally**: if a future spec-kit command introduces a new naming pattern, fall back to the rule "lowercase, replace dots with hyphens, drop a leading `spec2cloud` segment for extension commands".
 - **Plugin format**: stick to the Copilot-format layout (`plugin.json` at the root). Do not generate Claude-format `.claude-plugin/` paths unless the user explicitly asks.
 - **Cross-tool compatibility**: skill names must not contain slashes or namespace prefixes — VS Code silently drops invalid skills.
