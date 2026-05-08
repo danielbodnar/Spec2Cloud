@@ -1,0 +1,28 @@
+{
+  "name": "Spec2Cloud",
+  "metadata": {
+    "description": "Spec-driven workflow for shipping to Azure: constitution → specify → clarify → plan → tasks → implement → verify → deploy.",
+    "version": "1.2.0",
+    "pluginRoot": "./plugins"
+  },
+  "owner": {
+    "name": "Azure Samples"
+  },
+  "plugins": [
+    {
+      "name": "speckit-spec2cloud",
+      "source": "speckit-spec2cloud",
+      "description": "Spec-driven workflow for shipping to Azure: constitution → specify → clarify → plan → tasks → implement → verify → deploy.",
+      "version": "1.2.0",
+      "homepage": "https://github.com/Azure-Samples/Spec2Cloud",
+      "keywords": [
+        "azure",
+        "cloud",
+        "infrastructure",
+        "deployment",
+        "microsoft",
+        "devops"
+      ]      
+    }
+  ]
+}
