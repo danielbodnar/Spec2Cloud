@@ -3,7 +3,7 @@ schema_version: "1.0"
 workflow:
   id: "spec2cloud"
   name: "Spec2Cloud workflow"
-  version: "1.1.0"
+  version: "1.2.0"
   author: "Azure Samples"
   repository: "https://github.com/Azure-Samples/Spec2Cloud"
   description: "Full spec-driven cycle (constitution → specify → clarify → plan → tasks → implement → verify → deploy) targeting Azure, with a review gate at every artifact handoff."

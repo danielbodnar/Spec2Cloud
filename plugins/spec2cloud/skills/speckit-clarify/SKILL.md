@@ -1,7 +1,6 @@
 ---
-description: Ask up to 5 targeted clarification questions to resolve ambiguity in the spec, and write the answers back into spec.md.
-  - label: Build Technical Plan
-    prompt: /speckit-plan the app should be implemented with the following technologies...
+name: speckit-clarify
+description: Ask up to 5 targeted clarification questions to resolve ambiguity in the spec, then write the answers back into spec.md.
 ---
 
 ## User Input
@@ -16,7 +15,7 @@ $ARGUMENTS
 
 Run **before** `/speckit-plan`. If user is doing an exploratory spike and wants to skip, proceed but warn rework risk increases.
 
-1. **Load context**. Read `.specify/feature.json` → `<feature_directory>`. Read `<feature_directory>/spec.md` and `constitution.md`. Stop if `spec.md` missing (run `/speckit-specify`).
+1. **Load context**. Read `specs/feature.json` → `<feature_directory>`. Read `<feature_directory>/spec.md` and `constitution.md`. Stop if `spec.md` missing (run `/speckit-specify`).
 
 2. **Scan for ambiguity** across these dimensions; mark each **Clear** / **Partial** / **Missing** (keep map internal): functional scope, success criteria, out-of-scope, user roles; domain & data model (entities, attributes, relationships, identity, lifecycle, scale); interaction & UX (critical journeys, error/empty/loading states, accessibility, localization); non-functional (perf, scalability, reliability/availability, observability, security/privacy, compliance); integration & dependencies (external services, failure modes, data formats, versioning); edge cases & failure handling (negative flows, throttling, conflict resolution); constraints & tradeoffs (tech, hosting, rejected alternatives); terminology (glossary, deprecated synonyms); completion signals (testable acceptance criteria, measurable DoD); placeholders (`TODO`, `[NEEDS CLARIFICATION: …]`, vague adjectives like "robust"/"fast"/"intuitive" with no metric); **Azure / cloud**: target services + regions, identity model + RBAC, networking (private endpoints, VNet, egress), secret handling (Key Vault vs. inline), data residency / retention / backup, environments (`dev`/`staging`/`prod`), rollback expectations.
 

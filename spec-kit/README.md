@@ -86,7 +86,7 @@ The example walks the full workflow for a small feature ("TODO WebApp") on Azure
 3. **Plan.**
 
    ```
-   /speckit-plan Use React+Vite for the frontend and a Node.js API for the backend, with MongoDB handling data persistence. Deploy the frontend and backend using Container Apps, and use Azure Cosmos DB for MongoDB as the managed database. Create a resource group in westeurope named lab-todo-app for the Azure resources.
+   /speckit-plan Use React + Vite with a component library for the frontend and Node.js for the backend API, with MongoDB as the data layer. Deploy both the frontend and backend as Container Apps, and use Azure Cosmos DB for MongoDB (serverless) as the managed database. Authentication and private networking is out of scope for now.
    ```
 
    Produces `specs/001-todo-webapp/plan.md` with Azure topology, architecture, and design decisions.

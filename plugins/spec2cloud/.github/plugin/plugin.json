@@ -1,0 +1,18 @@
+{
+  "name": "spec2cloud",
+  "description": "Spec-driven workflow for shipping to Azure: constitution → specify → clarify → plan → tasks → implement → verify → deploy.",
+  "version": "1.2.0",
+  "author": { "name": "Azure Samples" },
+  "skills": [
+    "./skills/speckit-constitution",
+    "./skills/speckit-specify",
+    "./skills/speckit-clarify",
+    "./skills/speckit-plan",
+    "./skills/speckit-tasks",
+    "./skills/speckit-implement",
+    "./skills/speckit-analyze",
+    "./skills/speckit-checklist",
+    "./skills/speckit-verify",
+    "./skills/speckit-deploy"
+  ]
+}

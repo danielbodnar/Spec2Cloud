@@ -1,5 +1,6 @@
 ---
-description: Generate a domain-focused checklist that validates the quality of the requirements (not the implementation).
+name: speckit-checklist
+description: Generate a domain-focused checklist that validates the quality of the requirements (completeness, clarity, consistency, measurability, coverage) — not the implementation.
 ---
 
 ## User Input
@@ -22,13 +23,13 @@ If you catch yourself writing "Verify", "Test", "Check that … works", "Click",
 
 `$ARGUMENTS` (if any) = requested theme (`security`, `ux`, `api`, `performance`, `azure`, `deploy`, …). Empty = ask the user which checklist they want.
 
-1. **Load context**. Read `.specify/feature.json` → `<feature_directory>`. Read `constitution.md` plus whichever of `spec.md`, `plan.md`, `tasks.md`, `tasks.json` exist. Stop if `spec.md` missing (run `/speckit-specify`).
+1. **Load context**. Read `specs/feature.json` → `<feature_directory>`. Read `constitution.md` plus whichever of `spec.md`, `plan.md`, `tasks.md`, `tasks.json` exist. Stop if `spec.md` missing (run `/speckit-specify`).
 
 2. **Clarify intent** — at most **three** focused questions, only when `$ARGUMENTS` + artifacts leave material ambiguity. Cover: theme/focus area; depth (lightweight pre-commit vs. formal release gate); audience/timing (author self-review, peer PR, QA, release sign-off). Skip already-answered ones. After answers, up to two follow-ups (max five total) only if a scenario class (alternate / exception / recovery / non-functional) remains unaddressed — cite the gap. When non-interactive, default to: depth = standard, audience = peer reviewer (PR), focus = top theme inferred from spec.
 
 3. **Filename + ID start**. Ensure `<feature_directory>/checklists/`. Use short theme-based name `<theme>.md` (e.g. `security.md`, `azure.md`, `deploy.md`). New file → number from `CHK001`. Existing file → append continuing the last `CHK###`; never delete or rewrite existing items.
 
-4. **Generate the checklist** following [`templates/checklist-template.md`](templates/checklist-template.md) when available. Else emit:
+4. **Generate the checklist** following [`assets/checklist-template.md`](assets/checklist-template.md) when available. Else emit:
    - `# <Theme> requirements checklist` (H1)
    - Meta lines: created date, feature, source artifacts considered.
    - `## <Quality dimension>` headings grouping items by **Completeness**, **Clarity**, **Consistency**, **Acceptance criteria quality**, **Scenario coverage**, **Edge cases**, **Non-functional**, **Dependencies & assumptions**, **Ambiguities & conflicts**.
@@ -36,6 +37,6 @@ If you catch yourself writing "Verify", "Test", "Check that … works", "Click",
 
    Item rules: phrase every item as a question about the **requirement**, not the implementation; tag with ≥1 quality dimension; ≥**80%** of items must include a traceability marker (`[Spec §X.Y]` / `[Plan §X.Y]` or one of `[Gap]`, `[Ambiguity]`, `[Conflict]`, `[Assumption]`); cap raw output at ~40 items, merging near-duplicates and rolling >5 minor edge cases into a single coverage question; carry forward any `[NEEDS CLARIFICATION: …]` markers as `[Ambiguity]`; never invent requirements not grounded in the artifacts — write a `[Gap]` item asking whether to specify them.
 
-5. **Spec2cloud themes** — when theme is `azure` or `deploy`, additionally ask whether the spec/plan address: target Azure services + regions + SKU/pricing tiers (specified vs. assumed); identity model (managed identity vs. service principal) + RBAC role assignments; networking (private endpoints, VNet integration, public access, egress); secret handling (Key Vault refs vs. inline); data residency, retention, backup; observability (logs, metrics, traces, alerts); IaC entry point (`azure.yaml` / Bicep / Terraform) + env promotion (`dev` → `staging` → `prod`); rollback + what-if/preview requirements for `/speckit-spec2cloud-deploy`.
+5. **Spec2cloud themes** — when theme is `azure` or `deploy`, additionally ask whether the spec/plan address: target Azure services + regions + SKU/pricing tiers (specified vs. assumed); identity model (managed identity vs. service principal) + RBAC role assignments; networking (private endpoints, VNet integration, public access, egress); secret handling (Key Vault refs vs. inline); data residency, retention, backup; observability (logs, metrics, traces, alerts); IaC entry point (`azure.yaml` / Bicep / Terraform) + env promotion (`dev` → `staging` → `prod`); rollback + what-if/preview requirements for `/speckit-deploy`.
 
 6. **Report**: checklist path, **created** vs. **appended**, item count + starting/ending `CHK` IDs, theme/depth/audience used, any explicit user must-haves incorporated.

@@ -1,10 +1,6 @@
 ---
-description: Create the tasks needed for implementation and store them in tasks.md.
-handoffs: 
-  - label: Analyze For Consistency
-    prompt: /speckit-verify
-  - label: Implement Project
-    prompt: /speckit-implement
+name: speckit-tasks
+description: Create tasks.md and tasks.json (dependency-ordered, phase-grouped) from plan and spec.
 ---
 
 ## User Input
@@ -17,9 +13,9 @@ $ARGUMENTS
 
 `$ARGUMENTS` (if any) = additional guidance: scope hints, phases to skip, tasks to emphasize. Empty = derive tasks from the plan and spec as-is.
 
-1. **Load context**. Read `.specify/feature.json` → `<feature_directory>`. Read `constitution.md`, `spec.md`, `plan.md`. Stop if `plan.md` missing (run `/speckit-plan`).
+1. **Load context**. Read `specs/feature.json` → `<feature_directory>`. Read `constitution.md`, `spec.md`, `plan.md`. Stop if `plan.md` missing (run `/speckit-plan`).
 
-2. **Create dependency-ordered tasks** based on `.specify/presets/spec2cloud/templates/tasks-template.md`, written to **both** `<feature_directory>/tasks.md` (human-readable) and `<feature_directory>/tasks.json` (machine-readable), organized by phase:
+2. **Create dependency-ordered tasks** based on `assets/tasks-template.md`, written to **both** `<feature_directory>/tasks.md` (human-readable) and `<feature_directory>/tasks.json` (machine-readable), organized by phase:
    - **Setup** — project scaffolding, dependencies and tooling.
    - **Foundational** — shared modules, data model, and contracts that other tasks depend on.
    - **User stories** (in priority order from the spec) — one coarse-grained task (or a small handful) per story that delivers the story end-to-end. Do not break stories into per-test or per-acceptance-criterion subtasks.

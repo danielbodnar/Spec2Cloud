@@ -3,7 +3,7 @@ schema_version: "1.0"
 preset:
   id: "spec2cloud"
   name: "Spec2Cloud preset"
-  version: "1.1.0"
+  version: "1.2.0"
   description: "Spec-driven workflow tuned for shipping to Azure: constitution → specify → clarify → plan → tasks → implement → verify → deploy."
   author: "Azure Samples"
   repository: "https://github.com/Azure-Samples/Spec2Cloud"
@@ -44,6 +44,11 @@ provides:
       file: "templates/checklist-template.md"
       description: "Custom feature checklist template"
       replaces: "checklist-template"
+
+    - type: "template"
+      name: "azure-template"
+      file: "templates/azure-template.md"
+      description: "Azure deployment template"
 
     - type: "command"
       name: "speckit.constitution"

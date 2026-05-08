@@ -1,10 +1,6 @@
 ---
-description: Create an implementation plan (plan.md) and Azure deployment plan (azure.md) for the current feature.
-handoffs:
-  - label: Create Tasks
-    prompt: /speckit-tasks
-  - label: Create Checklist
-    prompt: /speckit-checklist
+name: speckit-plan
+description: Create plan.md (technical context, architecture, design decisions) from the spec.
 ---
 
 ## User Input
@@ -17,9 +13,9 @@ $ARGUMENTS
 
 `$ARGUMENTS` (if any) = additional planning guidance: constraints, preferences, tech choices to honor. Empty = plan from the spec as-is.
 
-1. **Load context**. Read `.specify/feature.json` → `<feature_directory>`. Read `.specify/memory/constitution.md` (principles, non-negotiables, out-of-scope) and `<feature_directory>/spec.md` (source of truth for *what* and *why*). Stop if either is missing and name the command to run first (`/speckit-constitution` or `/speckit-specify`).
+1. **Load context**. Read `specs/feature.json` → `<feature_directory>`. Read `specs/constitution.md` (principles, non-negotiables, out-of-scope) and `<feature_directory>/spec.md` (source of truth for *what* and *why*). Stop if either is missing and name the command to run first (`/speckit-constitution` or `/speckit-specify`).
 
-2. **Create the plan** based on `.specify/presets/spec2cloud/templates/plan-template.md`, stored in `<feature_directory>/plan.md` with these sections:
+2. **Create the plan** based on `assets/plan-template.md`, stored in `<feature_directory>/plan.md` with these sections:
    - **Technical context** — language(s), runtime, key dependencies, target platform(s), external services (especially cloud/Azure).
    - **Architecture** — components and how they interact; brief diagram or component list.
    - **Project structure** — top-level directory layout and where new code will live.
@@ -28,7 +24,7 @@ $ARGUMENTS
 
    Guidelines: honor every constitution non-negotiable — if user request conflicts, surface it explicitly rather than silently overriding; make informed defaults, marking genuine unknowns as `[NEEDS CLARIFICATION: <question>]` instead of guessing; focus on *how* — *what*/*why* belong in `spec.md`, don't restate it; don't enumerate individual tasks or write code (that's `/speckit-tasks` and `/speckit-implement`).
 
-3. **Create the Azure deployment plan** based on `.specify/presets/spec2cloud/templates/azure-template.md`, stored at the workspace root `/azure.md`. Fill in every field defined by the template; in particular:
+3. **Create the Azure deployment plan** based on `assets/azure-template.md`, stored at the workspace root `/azure.md`. Fill in every field defined by the template; in particular:
    - **AZD Template** — propose the best match from the **Use Case → AZD Template Mapping** table below (e.g. `Azure-Samples/azd-ai-starter-basic`, `Azure-Samples/todo-csharp-cosmos-sql`). **ASK** the user to choose one of:
      - **Accept** the suggestion.
      - **Pick a different template** from the catalog.
