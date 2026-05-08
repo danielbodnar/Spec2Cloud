@@ -1,5 +1,5 @@
 ---
-name: speckit-constitution
+name: constitution
 description: Create or update the project constitution (principles, non-negotiables, out-of-scope).
 ---
 
@@ -23,6 +23,6 @@ $ARGUMENTS
    - **Non-negotiable rules** — hard constraints (security, compliance, compatibility, deployment targets) downstream specs/plans must respect.
    - **Out of scope** — things the project explicitly will *not* do, to prevent scope drift.
 
-   Guidelines: merge user input with existing content, preserving prior rules unless explicitly overridden; keep it terse — every line should be actionable by `/speckit-specify`, `/speckit-plan`, `/speckit-tasks`; mark genuine unknowns as `[NEEDS CLARIFICATION: <question>]` rather than inventing constraints; no implementation details, file structures, or task lists — those belong in `plan.md` and `tasks.md`.
+   Guidelines: merge user input with existing content, preserving prior rules unless explicitly overridden; keep it terse — every line should be actionable by `/speckit:specify`, `/speckit:plan`, `/speckit:tasks`; mark genuine unknowns as `[NEEDS CLARIFICATION: <question>]` rather than inventing constraints; no implementation details, file structures, or task lists — those belong in `plan.md` and `tasks.md`.
 
 4. **Report** the path to `specs/constitution.md` and a brief summary of what changed (or "created" if new).

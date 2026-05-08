@@ -4,15 +4,15 @@
   "version": "1.2.0",
   "author": { "name": "Azure Samples" },
   "skills": [
-    "./skills/speckit-constitution",
-    "./skills/speckit-specify",
-    "./skills/speckit-clarify",
-    "./skills/speckit-plan",
-    "./skills/speckit-tasks",
-    "./skills/speckit-implement",
-    "./skills/speckit-analyze",
-    "./skills/speckit-checklist",
-    "./skills/speckit-verify",
-    "./skills/speckit-deploy"
+    "./skills/constitution",
+    "./skills/specify",
+    "./skills/clarify",
+    "./skills/plan",
+    "./skills/tasks",
+    "./skills/implement",
+    "./skills/analyze",
+    "./skills/checklist",
+    "./skills/verify",
+    "./skills/deploy"
   ]
 }

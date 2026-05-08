@@ -1,5 +1,5 @@
 ---
-name: speckit-implement
+name: implement
 description: Execute pending tasks from tasks.md / tasks.json, updating both on completion.
 ---
 
@@ -13,7 +13,7 @@ $ARGUMENTS
 
 `$ARGUMENTS` (if any) = execution guidance: a `T###` to start at or stop after, a phase to limit to, a task to skip. Empty = execute all pending tasks in order.
 
-1. **Load context**. Read `specs/feature.json` → `<feature_directory>`. Read `constitution.md`, `spec.md`, `plan.md`, `tasks.md`, `tasks.json`. Run `/speckit-tasks` automatically first, if `tasks.md`/`tasks.json` are missing. If they disagree (IDs, descriptions, order), stop and report divergence — do not silently pick one. Resolve any `Resolve: <question>` setup tasks with the user; do not guess.
+1. **Load context**. Read `specs/feature.json` → `<feature_directory>`. Read `constitution.md`, `spec.md`, `plan.md`, `tasks.md`, `tasks.json`. Run `/speckit:tasks` automatically first, if `tasks.md`/`tasks.json` are missing. If they disagree (IDs, descriptions, order), stop and report divergence — do not silently pick one. Resolve any `Resolve: <question>` setup tasks with the user; do not guess.
 
 2. **Initialize the AZD template and set environment variables**:
 

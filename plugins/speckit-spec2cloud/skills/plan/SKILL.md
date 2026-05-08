@@ -1,5 +1,5 @@
 ---
-name: speckit-plan
+name: plan
 description: Create plan.md (technical context, architecture, design decisions) from the spec.
 ---
 
@@ -13,7 +13,7 @@ $ARGUMENTS
 
 `$ARGUMENTS` (if any) = additional planning guidance: constraints, preferences, tech choices to honor. Empty = plan from the spec as-is.
 
-1. **Load context**. Read `specs/feature.json` → `<feature_directory>`. Read `specs/constitution.md` (principles, non-negotiables, out-of-scope) and `<feature_directory>/spec.md` (source of truth for *what* and *why*). Stop if either is missing and name the command to run first (`/speckit-constitution` or `/speckit-specify`).
+1. **Load context**. Read `specs/feature.json` → `<feature_directory>`. Read `specs/constitution.md` (principles, non-negotiables, out-of-scope) and `<feature_directory>/spec.md` (source of truth for *what* and *why*). Stop if either is missing and name the command to run first (`/speckit:constitution` or `/speckit:specify`).
 
 2. **Create the plan** based on `assets/plan-template.md`, stored in `<feature_directory>/plan.md` with these sections:
    - **Technical context** — language(s), runtime, key dependencies, target platform(s), external services (especially cloud/Azure).
@@ -22,7 +22,7 @@ $ARGUMENTS
    - **Design decisions** — each as *Decision → Rationale → Alternatives considered*. Cover data model, interfaces/contracts, cloud topology when relevant.
    - **Risks & open questions** — anything that could derail implementation, plus any `[NEEDS CLARIFICATION: <question>]` markers carried over from the spec or newly discovered.
 
-   Guidelines: honor every constitution non-negotiable — if user request conflicts, surface it explicitly rather than silently overriding; make informed defaults, marking genuine unknowns as `[NEEDS CLARIFICATION: <question>]` instead of guessing; focus on *how* — *what*/*why* belong in `spec.md`, don't restate it; don't enumerate individual tasks or write code (that's `/speckit-tasks` and `/speckit-implement`).
+   Guidelines: honor every constitution non-negotiable — if user request conflicts, surface it explicitly rather than silently overriding; make informed defaults, marking genuine unknowns as `[NEEDS CLARIFICATION: <question>]` instead of guessing; focus on *how* — *what*/*why* belong in `spec.md`, don't restate it; don't enumerate individual tasks or write code (that's `/speckit:tasks` and `/speckit:implement`).
 
 3. **Create the Azure deployment plan** based on `assets/azure-template.md`, stored at the workspace root `/azure.md`. Fill in every field defined by the template; in particular:
    - **AZD Template** — propose the best match from the **Use Case → AZD Template Mapping** table below (e.g. `Azure-Samples/azd-ai-starter-basic`, `Azure-Samples/todo-csharp-cosmos-sql`). **ASK** the user to choose one of:
@@ -50,9 +50,9 @@ $ARGUMENTS
     ```
     If a skill is already present under `.github/skills/`, **ASK** the user whether to reinstall (update to the latest version) or keep the existing version; skip the install when the user chooses to keep it.
 
-5. **Execute skills** to populate values in `/azure.md` that depend on a skill execution. If a field's value must be produced by a skill, run that skill in-place, **ASK** the user to confirm the skill output suggestion and write the resolved value into `/azure.md`. Do not leave `[NEEDS CLARIFICATION: populate via <skill-name>]` markers behind — `/speckit-plan` must exit with `/azure.md` fully resolved.
+5. **Execute skills** to populate values in `/azure.md` that depend on a skill execution. If a field's value must be produced by a skill, run that skill in-place, **ASK** the user to confirm the skill output suggestion and write the resolved value into `/azure.md`. Do not leave `[NEEDS CLARIFICATION: populate via <skill-name>]` markers behind — `/speckit:plan` must exit with `/azure.md` fully resolved.
 
-6. **Report** the paths to `<feature_directory>/plan.md` and `<feature_directory>/azure.md`, a one-line summary of the chosen approach (including the selected AZD template), the list of recommended skills (installed by `/speckit-implement`), and any unresolved `[NEEDS CLARIFICATION]` items from either file.
+6. **Report** the paths to `<feature_directory>/plan.md` and `<feature_directory>/azure.md`, a one-line summary of the chosen approach (including the selected AZD template), the list of recommended skills (installed by `/speckit:implement`), and any unresolved `[NEEDS CLARIFICATION]` items from either file.
 
 ## AZD Templates Reference
 

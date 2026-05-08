@@ -23,32 +23,32 @@ plugins/speckit-spec2cloud/
 ├── .github/plugin/plugin.json     # Plugin manifest
 ├── README.md                # Plugin overview + skill index
 └── skills/
-    ├── speckit-constitution/
+    ├── constitution/
     │   └── SKILL.md
-    ├── speckit-specify/
+    ├── specify/
     │   └── SKILL.md
-    ├── speckit-plan/
+    ├── plan/
     │   ├── SKILL.md
     │   └── assets/
     │       ├── plan-template.md
     │       └── azure-template.md
-    ├── speckit-tasks/
+    ├── tasks/
     │   ├── SKILL.md
     │   └── assets/
     │       └── tasks-template.md
-    ├── speckit-implement/
+    ├── implement/
     │   └── SKILL.md
-    ├── speckit-analyze/
+    ├── analyze/
     │   └── SKILL.md
-    ├── speckit-checklist/
+    ├── checklist/
     │   ├── SKILL.md
     │   └── assets/
     │       └── checklist-template.md
-    ├── speckit-clarify/
+    ├── clarify/
     │   └── SKILL.md
-    ├── speckit-deploy/        # extension command — `spec2cloud` segment dropped
+    ├── deploy/        # extension command — `spec2cloud` segment dropped
     │   └── SKILL.md
-    └── speckit-verify/        # extension command — `spec2cloud` segment dropped
+    └── verify/        # extension command — `spec2cloud` segment dropped
         └── SKILL.md
 ```
 
@@ -56,8 +56,8 @@ plugins/speckit-spec2cloud/
 
 | Source | Skill folder + `name` |
 |--------|-----------------------|
-| Preset command `speckit.<x>` | `speckit-<x>` (replace dots with hyphens) |
-| Extension command `speckit.spec2cloud.<x>` | `speckit-<x>` (drop `spec2cloud`, hyphenate) |
+| Preset command `speckit.<x>` | `<x>` (remove `speckit.` prefix) |
+| Extension command `speckit.spec2cloud.<x>` | `<x>` (remove `speckit.spec2cloud.` prefix) |
 
 Skill names must be plain kebab-case — lowercase letters, numbers, hyphens — per the plugin docs. The skill folder name MUST equal the `name` value in its `SKILL.md` frontmatter.
 
@@ -78,11 +78,11 @@ Parse `spec-kit/presets/spec2cloud/preset.yml` and `spec-kit/extensions/spec2clo
 
 Compute it once from the command list. Used in step 4 to rewrite cross-references inside every `SKILL.md` body:
 
-- `/speckit.spec2cloud.deploy` → `/speckit-deploy`
-- `/speckit.spec2cloud.verify` → `/speckit-verify`
-- `/speckit-spec2cloud-deploy` → `/speckit-deploy`
-- `/speckit-spec2cloud-verify` → `/speckit-verify`
-- `/speckit.<x>` → `/speckit-<x>` (for every preset command)
+- `/speckit.spec2cloud.deploy` → `/deploy`
+- `/speckit.spec2cloud.verify` → `/verify`
+- `/speckit-spec2cloud-deploy` → `/deploy`
+- `/speckit-spec2cloud-verify` → `/verify`
+- `/speckit.<x>` → `/<x>` (for every preset command)
 
 Apply the table in order of decreasing source-string length so longer matches replace before shorter ones.
 
@@ -137,8 +137,16 @@ Source for every template: `spec-kit/presets/spec2cloud/templates/<filename>`. C
 ### 6. Update the  skills
 
 - Update command references:
-  - `/speckit-spec2cloud-deploy` → `/speckit-deploy`
-  - `/speckit-spec2cloud-verify` → `/speckit-verify`
+  - `speckit-constitution` → `/speckit:constitution`
+  - `speckit-specify` → `/speckit:specify`
+  - `speckit-plan` → `/speckit:plan`
+  - `speckit-tasks` → `/speckit:tasks`
+  - `speckit-checklist` → `/speckit:checklist`
+  - `speckit-implement` → `/speckit:implement`
+  - `speckit-analyze` → `/speckit:analyze`
+  - `speckit-clarify` → `/speckit:clarify`
+  - `/speckit-spec2cloud-deploy` → `/speckit:deploy`
+  - `/speckit-spec2cloud-verify` → `/speckit:verify`
 - Update file references:
   - `.specify/memory/constitution.md` → `specs/constitution.md`
   - `.specify/feature.json` → `specs/feature.json`
@@ -154,7 +162,7 @@ Write the manifest with the fields VS Code recognizes (per the docs):
   "version": "<combined version>",
   "author": { "name": "Azure Samples" },
   "skills": [
-    "./skills/speckit-constitution"
+    "./skills/constitution"
     ...
   ]
 }
@@ -179,7 +187,7 @@ After writing all files, verify:
 
 1. Every `plugins/speckit-spec2cloud/skills/<dir>/SKILL.md` has frontmatter with `name` matching `<dir>` and a non-empty `description`.
 2. Every template referenced inside any `SKILL.md` body resolves to a file under that skill's `assets/`.
-3. No `SKILL.md` body contains an un-rewritten `/speckit.<x>` or `/speckit-spec2cloud-<x>` slash command.
+3. No `SKILL.md` body contains an un-rewritten `/speckit.<x>` or `/speckit-<x>` or `/speckit.spec2cloud.<x>` or `/speckit-spec2cloud-<x>` slash command.
 4. `plugin.json` parses as JSON; `name` is kebab-case; `version` is semver.
 
 If any check fails, report the offending file + line and stop — do not silently produce a broken plugin.

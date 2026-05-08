@@ -1,5 +1,5 @@
 ---
-name: speckit-specify
+name: specify
 description: Create spec.md from a feature description.
 ---
 
@@ -13,7 +13,7 @@ $ARGUMENTS
 
 `$ARGUMENTS` is the feature description from the triggering message — assume it's available even if the placeholder appears literally above. Don't ask the user to repeat it unless they provided an empty command.
 
-1. **Load context**. Read `specs/constitution.md` (principles, non-negotiables, out-of-scope) and run `/speckit-constitution without specific principles` automatically first, if the file is missing.
+1. **Load context**. Read `specs/constitution.md` (principles, non-negotiables, out-of-scope) and run `/speckit:constitution without specific principles` automatically first, if the file is missing.
 
 2. **Create `<feature_directory>`** under `specs/`, named `<NNN>-<short-name>`:
    - `<NNN>` — 3-digit zero-padded sequence, one greater than the highest existing prefix in `specs/` (start at `001` if none).
