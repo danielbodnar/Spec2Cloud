@@ -64,8 +64,19 @@ $ARGUMENTS
 
     Do not proceed to step 4 until every variable has been successfully persisted via `azd env set`.
 
-3. **Execute pending tasks** in order, honoring `depends_on` and `$ARGUMENTS` scope. Skip tasks already `- [x]` / `"status": "done"`. For each task: make the smallest change that satisfies its description + `satisfies` references; honor non-negotiable rules from the constitution (halt + report if a task would violate one); on success, mark complete in **both** files — flip `- [ ]` → `- [x]` in `tasks.md` and set `"status": "done"` in `tasks.json` for the matching `id`; on failure, leave pending, halt execution, and report task ID + error + suggested next step (do not move on to dependents). Tasks listed in each other's `parallel_with` have no ordering constraint between them, but still execute one at a time and update both files after each.
+3. **Execute pending tasks** in order, honoring `depends_on` and `$ARGUMENTS` scope. Skip tasks already `- [x]` / `"status": "done"`. Tasks listed in each other's `parallel_with` have no ordering constraint between them, but still execute one at a time. **Process exactly one task per iteration** of the loop below — never batch updates across tasks, never defer a checkpoint to the end of a phase.
 
-4. **Validate**. Confirm every non-skipped task is `- [x]` in `tasks.md` and `"status": "done"` in `tasks.json`. Spot-check that the implementation satisfies the spec's functional requirements + success criteria and that no `[NEEDS CLARIFICATION]` markers remain. Run project-defined verification (local tests that doesn't depend on Azure, linters, build) if available; report results but don't fix unrelated pre-existing failures.
+   For each task, run these substeps **in order** and do not start the next task until the checkpoint has been written to disk:
+
+   1. **Re-read** `tasks.md` and `tasks.json` from disk (do not trust an in-memory copy from a previous task) and confirm the task is still `- [ ]` / `"status": "pending"`. If it isn't, skip it.
+   2. **Execute** the task: make the smallest change that satisfies its description + `satisfies` references; honor non-negotiable rules from the constitution (halt + report if a task would violate one).
+   3. **Checkpoint — atomic dual-file update, mandatory after every task** (success *and* failure):
+      - On **success**: flip `- [ ]` → `- [x]` in `tasks.md` **and** set `"status": "done"` in `tasks.json` for the matching `id`. Write both files before any other action.
+      - On **failure**: leave the checkbox `- [ ]` and set `"status": "failed"` (with a short `"error"` field) in `tasks.json` for the matching `id`. Write both files before reporting.
+      - Both writes are part of the same checkpoint: if either write fails, revert the other so the two files never diverge, then halt and report the I/O error. Never proceed to the next task with `tasks.md` and `tasks.json` out of sync.
+   4. **Verify the checkpoint** by re-reading both files and confirming the new state is persisted (`- [x]` / `"done"` for success, `"failed"` for failure). Only then move on.
+   5. **On failure**, after the checkpoint is written, halt execution and report task ID + error + suggested next step (do not move on to dependents).
+
+4. **Validate**. Confirm every non-skipped task is `- [x]` in `tasks.md` and `"status": "done"` in `tasks.json`, and that the two files are in sync (same IDs, same order, same statuses). Spot-check that the implementation satisfies the spec's functional requirements + success criteria and that no `[NEEDS CLARIFICATION]` markers remain. Run project-defined verification (local tests that doesn't depend on Azure, linters, build) if available; report results but don't fix unrelated pre-existing failures.
 
 5. **Report**: path to `<feature_directory>/tasks.md`, completed task count, any halted/failed task with its error, remaining pending tasks, one-line summary of what was implemented.
