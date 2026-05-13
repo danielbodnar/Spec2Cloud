@@ -1,0 +1,13 @@
+{
+  "name": "lean-spec2cloud",
+  "description": "Lean spec-driven workflow for shipping to Azure: specify → plan → implement → verify → deploy.",
+  "version": "1.0.0",
+  "author": { "name": "Azure Samples" },
+  "skills": [
+    "./skills/specify",
+    "./skills/plan",
+    "./skills/implement",
+    "./skills/verify",
+    "./skills/deploy"
+  ]
+}
