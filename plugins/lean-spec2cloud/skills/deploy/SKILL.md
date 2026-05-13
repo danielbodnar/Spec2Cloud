@@ -32,5 +32,4 @@ azd deploy -e <AZD environment> --debug > ./azure.log
 
 ## Report
 
-Do not claim deployment succeeded without `azd deploy` exit 0 AND the local E2E suite re-run against the deployed URL. Hand back the deployed Azure endpoint and summarize the updated `./docs/deploy.md`.
-
+Do not claim deployment succeeded without `azd deploy` exit 0 AND the local E2E suite re-run against the deployed URL. Hand back the deployed Azure endpoint and summarize the updated `./docs/deploy.md`. Generate or refresh root `README.md` linking to `./docs/spec.md`, `./docs/plan.md`, `./docs/implementation.md`, `./docs/verify.md`, and `./docs/deploy.md`.

@@ -20,6 +20,6 @@ Source of truth for Azure deployment. Confirm all values with the user **in one 
 |---|---|---|
 | `AZURE_LOCATION` | `eastus` \| `westeurope` \| `uksouth` \| … | constant |
 | `AZURE_RESOURCE_GROUP` | `rg-<project-name>` | constant |
-| `AI_PROJECT_DEPLOYMENTS` | `<resolved>` | `foundry-models-selector` skill (when feature uses Foundry models) |
-| `ENABLE_HOSTED_AGENTS` | `true` | constant (when feature uses Foundry hosted agents) |
+| `AI_PROJECT_DEPLOYMENTS` | `<resolved>` | `foundry-models-selector` skill (when feature uses large language models) |
+| `ENABLE_HOSTED_AGENTS` | `true` | constant (when feature uses Foundry hosted agents or needs Azure Container Registry to build container images) |
 | `ENABLE_CAPABILITY_HOST` | `false` | constant (when feature uses Foundry hosted agents) |

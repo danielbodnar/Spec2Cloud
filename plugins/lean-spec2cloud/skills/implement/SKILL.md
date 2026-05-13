@@ -18,7 +18,7 @@ azd init --minimal -e <AZD environment> -s <Azure Subscription Id> -l <Azure Reg
 
 Pick the form recorded in `./.azure/deployment-plan.md`. Treat non-zero exit as failure only if `azure.yaml`, `.azure/`, or (non-minimal) `infra/` are missing.
 
-Move `azure.yaml`, `.azure/`, `infra/`, and `.gitignore` into the workspace root. **Ask** before overwriting; merge `.gitignore` rather than overwrite. Delete the temp dir.
+Move `azure.yaml` and `infra/` into the workspace root. **Ask** before overwriting; Delete the temp dir.
 
 ## Persist environment variables
 
