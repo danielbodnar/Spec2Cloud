@@ -83,6 +83,52 @@ Generates `./docs/spec.md` from current `./src/` and `./infra/`.
 /lean:specify validate
 ```
 
+## Alternative: Use with APM
+
+As an alternative to the Copilot plugin marketplace, you can distribute the Lean plugin through [APM](https://microsoft.github.io/apm/) so teams get a pinned, reproducible setup.
+
+1. Install APM:
+
+```powershell
+# Windows PowerShell
+irm https://aka.ms/apm-windows | iex
+```
+
+```bash
+# macOS / Linux
+curl -sSL https://aka.ms/apm-unix | sh
+```
+
+2. In your project, create or update `apm.yml` with a dependency that points to this repo and plugin path:
+
+```yaml
+name: my-project
+version: 1.0.0
+dependencies:
+  apm:
+    - git: github.com/Azure-Samples/Spec2Cloud/plugins/lean-spec2cloud
+```
+
+3. Install dependencies into your Copilot target:
+
+```bash
+apm install --target copilot
+```
+
+APM will resolve and lock content in `apm.lock.yaml`, then deploy primitives into your local Copilot harness files.
+
+To refresh later:
+
+```bash
+apm update
+```
+
+For CI or deterministic restores:
+
+```bash
+apm install --frozen
+```
+
 ## Related
 
 - [`speckit-spec2cloud`](../speckit-spec2cloud/README.md) — full spec-kit variant (10 skills: constitution, clarify, tasks, analyze, checklist, …) for heavier workflows.

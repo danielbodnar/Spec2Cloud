@@ -22,44 +22,71 @@ Choose the toolkit that matches your workflow:
 
 Use the Lean Toolkit when you want a fast, low-overhead workflow in Copilot.
 
-1. **Install the Spec2Cloud plugin marketplace:**
+1. **Install the Spec2Cloud plugin through the marketplace:**
 
    ```bash
+   # Add the marketplace
    copilot plugin marketplace add Azure-Samples/Spec2Cloud
    ```
 
-2. **Install the Lean Toolkit plugin:**
-
    ```bash
+   # Install the plugin from the markeplace
    copilot plugin install lean@Spec2Cloud
    ```
 
-3. **Install prerequisites for verify and deploy:**
+   Prefer a pinned, reproducible setup? You can also install the Lean Toolkit through [APM (Agent Package Manager)](https://microsoft.github.io/apm/) by declaring it as a dependency in your project's `apm.yml`. See the [Alternative: Use with APM](./plugins/lean-spec2cloud/README.md#alternative-use-with-apm) section in the Lean plugin README for the full manifest example and commands.
+
+2. **Install prerequisites for verify and deploy:**
    - Azure CLI (`az`)
    - Azure Developer CLI (`azd`)
    - Bicep CLI (`bicep`)
 
-4. **Authenticate with Azure:**
+   **Authenticate with Azure:**
 
    ```bash
    azd auth login
    ```
 
-5. **Run the full loop in one prompt:**
+3. **Run the full loop in one prompt:**
 
    ```bash
    copilot -p "/fleet lean:spec2cloud Build a todo web app with a C# backend deployed on App Service, using Cosmos DB for NoSQL as the data persistence layer." --no-ask-user --yolo
    ```
 
-6. **Or run each stage step by step:**
+5. **Or run each stage step by step:**
+
+   Run the stages in order. Each command accepts optional extra context after the slash command, and skills auto-chain — for example, running `/lean:implement` without a plan will trigger `/lean:plan` first.
+
+   Capture or refine the requirements:
 
    ```text
    /lean:specify Build a todo web app with a C# backend deployed on App Service, using Cosmos DB for NoSQL as the data persistence layer.
+   ```
+
+   Produce the design and Azure deployment plan (optional — auto-runs if missing):
+
+   ```text
    /lean:plan
+   ```
+
+   Generate the application code and IaC (optional extra guidance can steer implementation choices):
+
+   ```text
    /lean:implement
+   ```
+
+   Exercise the implementation locally against provisioned Azure dependencies (optional extra instructions can specify a testing approach):
+
+   ```text
    /lean:verify
+   ```
+
+   Deploy to Azure (optional extra instructions can include post-deployment actions):
+
+   ```text
    /lean:deploy
    ```
+
 
 ---
 
