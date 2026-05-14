@@ -16,7 +16,7 @@ azd init -t <AZD template> -e <AZD environment> -s <Azure Subscription Id> -l <A
 azd init --minimal -e <AZD environment> -s <Azure Subscription Id> -l <Azure Region>
 ```
 
-Pick the form recorded in `./.azure/deployment-plan.md`. Treat non-zero exit as failure only if `azure.yaml`, `.azure/`, or (non-minimal) `infra/` are missing.
+Pick the form recorded in `./.azure/deployment-plan.md`. Treat non-zero exit as failure only if `azure.yaml` or (non-minimal) `infra/` are missing.
 
 Move `azure.yaml` and `infra/` into the workspace root. **Ask** before overwriting; Delete the temp dir.
 

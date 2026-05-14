@@ -1,52 +1,77 @@
 # Spec2Cloud
 
-**Accelerate your Azure development with production-ready templates**
+**Ship Azure solutions faster with spec-driven toolkits**
 
 ![Spec2Cloud](docs/images/spec2cloud-banner.png)
 
-Spec2Cloud is a curated catalog of production-ready templates designed to help developers quickly build and deploy Azure applications. Whether you're building AI agents, modernizing applications, or creating data-centric solutions, Spec2Cloud provides the templates and tools to get you started faster.
+Spec2Cloud is a collection of Azure-focused toolkits that help teams move from specification to production with fewer handoffs and less rework. Whether you want a fully orchestrated loop, GitHub Spec Kit components, or a lightweight Copilot plugin, Spec2Cloud gives you a practical path to consistent Azure delivery.
 
 ![Spec2Cloud](docs/images/spec2cloud.png)
 
+## 🧰 Toolkit Options
+
+Choose the toolkit that matches your workflow:
+
+1. [Loop Toolkit](https://emeaappgbb.github.io/spec2cloud/) - a fully orchestrated workflow powered by the Ralph Loop, with deterministic progress, persisted state, human approval gates, and increment-based delivery from spec to Azure deployment.
+2. [Spec Kit 🌱](./spec-kit/) - a GitHub Spec Kit integration for Azure that combines a preset (core command and template overrides), an extension (verify and deploy commands), and a workflow for a gated lifecycle from constitution through deployment.
+3. [Lean Toolkit](./plugins/lean-spec2cloud/) - a lightweight, opinionated Copilot plugin that streamlines the core specify → plan → implement → verify → deploy loop for Azure, with focused skills and minimal context overhead to optimize token consumption.
+
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start (Lean Toolkit)
 
-Spec2Cloud offers multiple ways to discover and use templates, depending on your preferred workflow:
+Use the Lean Toolkit when you want a fast, low-overhead workflow in Copilot.
 
-### 🌐 Web Experience
+1. **Install the Spec2Cloud plugin marketplace:**
 
-Browse the complete catalog of templates with an intuitive web interface.
+   ```bash
+   copilot plugin marketplace add Azure-Samples/Spec2Cloud
+   ```
 
-**Access:** <http://aka.ms/spec2cloud>
+2. **Install the Lean Toolkit plugin:**
 
-**Quick Start:**
-1. Visit <http://aka.ms/spec2cloud>
-2. Browse templates by category, industry, or technology
-3. Use filters to find templates matching your stack (services, languages, frameworks)
-4. Click on a template to view details, watch demos, and see requirements
-5. Click **"Use in"** and choose your preferred option:
-   - **Open in VS Code** - Download directly to your local workspace
-   - **GitHub Codespaces** - Launch in a cloud development environment
-   - **vscode.dev** - Open in VS Code for the Web
-   - **Clone** - Copy the git clone command
+   ```bash
+   copilot plugin install lean@Spec2Cloud
+   ```
 
-**Features:**
-- 🔍 Advanced search and filtering
-- 📺 Video demonstrations
-- 🏷️ Tag-based discovery
-- ⭐ GitHub stars and activity tracking
-- 📱 Mobile-friendly interface
+3. **Install prerequisites for verify and deploy:**
+   - Azure CLI (`az`)
+   - Azure Developer CLI (`azd`)
+   - Bicep CLI (`bicep`)
+
+4. **Authenticate with Azure:**
+
+   ```bash
+   azd auth login
+   ```
+
+5. **Run the full loop in one prompt:**
+
+   ```bash
+   copilot -p "/fleet lean:spec2cloud Build a todo web app with a C# backend deployed on App Service, using Cosmos DB for NoSQL as the data persistence layer." --no-ask-user --yolo
+   ```
+
+6. **Or run each stage step by step:**
+
+   ```text
+   /lean:specify Build a todo web app with a C# backend deployed on App Service, using Cosmos DB for NoSQL as the data persistence layer.
+   /lean:plan
+   /lean:implement
+   /lean:verify
+   /lean:deploy
+   ```
 
 ---
 
 ### 🔧 VS Code Extension
 
-Install the Spec2Cloud Toolkit extension for an integrated template experience directly in Visual Studio Code.
+Use the Spec2Cloud Toolkit extension to monitor spec-driven workflow progress and scaffold projects from templates directly in VS Code. It complements Copilot CLI workflows with a guided visual experience.
+
+The extension includes views for workflow progress, installed custom agents and skills, and Azure context such as AZD environments, resource groups, Azure Monitor, Container Registry, Foundry projects, Container Apps, and App Service.
 
 **Install:** [Spec2Cloud Toolkit Extension](https://marketplace.visualstudio.com/items?itemName=ms-gbb-tools.spec2cloud-toolkit)
 
-**Quick Start:**
+**Quick Start (Template Flow):**
 
 1. **Install the extension:**
    - Open VS Code
@@ -54,118 +79,17 @@ Install the Spec2Cloud Toolkit extension for an integrated template experience d
    - Search for "Spec2Cloud Toolkit"
    - Click **Install**
 
-2. **Browse templates:**
+2. **Open a workspace:**
+   - Open an existing workspace, or create a new one
    - Open the Command Palette (Ctrl+Shift+P / Cmd+Shift+P)
    - Type `Spec2Cloud: Browse Templates`
-   - Browse the catalog within VS Code
+   - Browse the template catalog in VS Code
 
-3. **Use a template:**
+3. **Download and use a template:**
    - Select a template
    - Click **"Download to Workspace"**
-   - The template will be cloned to your current workspace
+   - The template is cloned into your current workspace
    - Follow the template's README for setup instructions
-
-**Features:**
-- 📦 Download templates directly to your workspace
-- 🔄 Stay up-to-date with the latest templates
-- 🎯 IntelliSense and validation for template metadata
-- 📝 Built-in template creation tools
-
----
-
-### 💻 CLI Experience (Coming Soon)
-
-A command-line interface for developers who prefer terminal-based workflows.
-
-**Planned Features:**
-- List and search templates from the terminal
-- Clone templates with a single command
-- Generate new templates from scaffolding
-- Automate template deployment workflows
-
-**Preview:**
-```bash
-```
-
-Stay tuned for the CLI release!
-
----
-
-## 📚 Template Categories
-
-### 🤖 AI Apps & Agents
-Build intelligent applications with Azure AI services, including chatbots, agents, and AI-powered workflows.
-
-### 🔄 App Modernization
-Migrate and modernize existing applications to Azure with cloud-native architectures and best practices.
-
-### 📊 Data Centric Apps
-Create data-driven applications leveraging Azure data services like Cosmos DB, SQL, and analytics platforms.
-
-### ⚙️ Agentic DevOps
-Implement automated DevOps workflows with AI-powered agents for CI/CD, monitoring, and infrastructure management.
-
----
-
-## 🛠️ Creating Your Own Templates
-
-Want to contribute your own template to Spec2Cloud? Follow these resources:
-
-### Documentation
-- **[Template Guidelines](https://github.com/EmeaAppGbb/spec2cloud)** - Learn the structure and requirements for creating Spec2Cloud templates
-- **[Template Reference](https://github.com/EmeaAppGbb/spec2cloud)** - Use the template scaffold as a starting point
-
-### Template Structure
-
-Every Spec2Cloud template includes:
-
-1. **SPEC2CLOUD.md** - Metadata file with YAML front matter containing:
-   - Title, description, category, and industry
-   - Authors and repository information
-   - Services, languages, frameworks, and tags
-   - Optional: thumbnail, video, version
-
-2. **.github folder** - GitHub Copilot files with agents, prompts, etc.
-
-3. **Specs** - .md files with the specs
-
-### Metadata Requirements
-
-**Mandatory Fields:**
-- `title` - Template name (max 40 characters)
-- `description` - Brief summary (max 140 characters)
-- `category` - AI Apps & Agents | App Modernization | Data Centric Apps | Agentic DevOps
-- `industry` - Target industry or "Cross-Industry"
-
-**Optional Fields:**
-- `authors` - GitHub usernames of contributors
-- `services` - Azure services used
-- `languages` - Programming languages
-- `frameworks` - Frameworks and libraries
-- `tags` - Additional categorization
-- `thumbnail` - Preview image (16:9 aspect ratio)
-- `video` - Demo video URL
-- `version` - Semantic version number
-
-### Example SPEC2CLOUD.md
-
-```yaml
----
-title: Marketing Agents
-description: Generate and manage comprehensive marketing campaigns using AI Agents
-repo: https://github.com/EmeaAppGbb/marketing-agents
-authors: [kostapetan]
-category: AI Apps & Agents
-industry: Cross-Industry
-services: [Azure AI Foundry, Azure Cosmos DB]
-languages: [.NET]
-frameworks: [Microsoft Agent Framework, Aspire]
-tags: [playwright, marketing, campaigns]
-thumbnail: thumbnail.png
-video: https://youtu.be/example
-version: 1.0.0
----
-```
 
 ---
 

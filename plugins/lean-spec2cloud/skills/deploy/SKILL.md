@@ -15,6 +15,7 @@ Requires `spec.md`, `plan.md`, `.azure/deployment-plan.md`, `verify.md`. If `imp
 - For container images, set `remoteBuild: true` in `azure.yaml` (ACR cloud build) — removes the local Docker dependency.
 - For IaC changes, dry-run with `azd provision --preview` before `azd deploy`.
 - Never print or commit secrets; values must resolve via Key Vault / managed identity.
+- Stop local servers before deploying to avoid file locks.
 
 ```bash
 azd deploy -e <AZD environment> --debug > ./azure.log

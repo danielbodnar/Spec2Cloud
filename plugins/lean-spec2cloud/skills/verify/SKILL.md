@@ -21,5 +21,5 @@ Requires `spec.md`. If `plan.md` is missing, auto-run `plan`. If `implementation
 
 ## Report
 
-Do not claim verification passed without running the test command in this turn and reporting exit code + key output. Summarize the updated `./docs/verify.md`.
+Do not claim verification passed without ensuring that the local servers started successfully in this turn and reporting exit code + key output. Summarize the updated `./docs/verify.md`.
 
