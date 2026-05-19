@@ -12,11 +12,13 @@ Requires `spec.md`, `plan.md`, `.azure/deployment-plan.md`, `verify.md`. If `imp
 **Preflight:** `az --version`, `azd version`, and `bicep --version` all succeed; `azd auth login --check-status` succeeds; `azd env list` shows the target env; `azure.yaml` exists and `infra/main.bicep` is present (skip if AZD template = `none`).
 
 - Confirm AZD environment, subscription, resource group, and region from `.azure/deployment-plan.md` before any state-changing command. Stop if the deployment plan records `none` for the AZD template (no `azure.yaml` to deploy).
-- For container images, set `remoteBuild: true` in `azure.yaml` (ACR cloud build) — removes the local Docker dependency.
+- For container images, set `remoteBuild: true` in `azure.yaml` (ACR cloud build) — removes the local Docker dependency. If docker is running locally, ask the user if they want to build the containers locally and push to ACR. 
+- Make sure that instrumentation is enabled, so that telemetry is available immediately after deployment.
+- When using Foundry hosted agents, make sure that the agents and dependencies such as HTTP MCP servers are part of the services configuration in `azure.yaml`.
 - For IaC changes, dry-run with `azd provision --preview` before `azd deploy`.
 - Never print or commit secrets; values must resolve via Key Vault / managed identity.
 - Stop local servers before deploying to avoid file locks.
-
+- Perform the azd deploy:
 ```bash
 azd deploy -e <AZD environment> --debug > ./azure.log
 ```

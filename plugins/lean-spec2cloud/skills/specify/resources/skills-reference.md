@@ -18,4 +18,6 @@ gh skills install <SKILL repository> <SKILL name> --dir .github/skills --agent g
 | Repository | Skill | Applies when spec includes |
 | --- | --- | --- |
 | `Azure-Samples/Spec2Cloud` | `foundry-models-selector@main` | Microsoft Foundry models |
+| `microsoft/azure-skills` | `microsoft-foundry` | Microsoft Foundry |
 | `github/awesome-copilot` | `microsoft-agent-framework` | Microsoft Agent Framework |
+| `github/awesome-copilot` | `python-mcp-server-generator` | Python MCP Server |
