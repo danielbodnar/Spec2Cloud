@@ -38,10 +38,9 @@ Natural-language description, optionally prefixed with a sub-command:
 ## Execute
 
 - Copy `.github/skills/specify/resources/copilot-instructions.md` to `.github/copilot-instructions.md` if missing.
-- Check the existing workspace skills that capture additional context and defaults.
 - Create `./docs` folder if doesn't exist.
 - Create/update `./docs/spec.md` from `resources/spec-template.md`. The spec must be implementation-ready. For genuine unknowns: in interactive mode, ask the user directly; in non-interactive mode, make a best-judgment assumption. All `[NEEDS CLARIFICATION]` markers must be resolved before the spec is considered implementation-ready.
 
 ## Report
 
-Summarize the changes applied to `./docs/spec.md`, list any open `[NEEDS CLARIFICATION]` markers, and prompt the user to continue with `plan` (produce a plan only) or `implement` (plan, then implement in one pass).
+Summarize the changes applied to `./docs/spec.md`, and prompt the user to continue with `plan` (produce a plan only) or `implement` (plan, then implement in one pass).
