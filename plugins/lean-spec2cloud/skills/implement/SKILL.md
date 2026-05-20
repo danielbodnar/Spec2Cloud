@@ -40,6 +40,7 @@ Check the following and fix any gaps before claiming implementation is complete 
 - Check if `./azure.yaml` has service configuration for each MCP server.
 - Check if `./azure.yaml` has service configuration for the frontend.
 - Check if `./azure.yaml` has service configuration for the backend.
+- Check if `./azure.yaml` has services configured with cloud build (`remoteBuild: true`) set for container images. Use docker if the user prefers local build and it's running; otherwise, use ACR cloud build.
 - Check if CORS is configured between frontend and backend for both local and cloud environment (`./infra`).
 
 ## Report
