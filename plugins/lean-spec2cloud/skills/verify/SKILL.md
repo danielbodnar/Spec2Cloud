@@ -9,9 +9,9 @@ Requires `spec.md`. If `plan.md` is missing, auto-run `plan`. If `implementation
 
 ## Execute
 
-- Provision Azure dependencies if required. With `--reuse`, first check `azd show -e <AZD environment> -o json` (or `az group show -n <resource-group>`) and skip provisioning if the resources already exist:
+- Provision Azure dependencies with `azd provision` and wait for completion:
   ```bash
-  azd provision -e <AZD environment> --debug > ./azure.log
+  azd provision -e <AZD environment>
   ```
 - Wire local config (`.env`, `local.settings.json`, `appsettings.Development.json`, …) using `azd env get-values -e <AZD environment>`. Show the user which keys are written (names only). Secrets must resolve via Key Vault references / managed identity — never as literals.
 - Start local servers (frontends, backends, MCP servers, Foundry hosted agents) with hot reload and telemetry enabled, run automated tests, update `./docs/verify.md` with process, results, and manual test instructions. On resume, re-read `./docs/verify.md` and re-run only the checks not yet marked passed.

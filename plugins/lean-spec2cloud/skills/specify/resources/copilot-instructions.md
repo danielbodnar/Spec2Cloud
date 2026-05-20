@@ -28,6 +28,16 @@ The **spec is the source of truth.** Any implementation change ⇒ update `./doc
     └── skills/              # installed skills
 ```
 
+## Stage → azd command
+
+| Stage     | azd command                                                                         |
+| --------- | ----------------------------------------------------------------------------------- |
+| Specify   | _none_                                                                              |
+| Plan      | identify the `azd` template to use                                                  |
+| Implement | `azd init -t <azd template>` - scaffold the infrastructure                          |
+| Verify    | `azd provision` - provision the Azure resources needed to verify the implementation |
+| Deploy    | `azd deploy` - deploy the implementation to Azure                                   |
+
 ## Rules
 
 - Never plan before `./docs/spec.md` exists.

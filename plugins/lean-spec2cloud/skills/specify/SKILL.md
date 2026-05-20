@@ -18,6 +18,7 @@ Natural-language description, optionally prefixed with a sub-command:
 ## Execute
 
 - Copy `.github/skills/specify/resources/copilot-instructions.md` to `.github/copilot-instructions.md` if missing.
+- Create `./docs` folder if doesn't exist.
 - Create/update `./docs/spec.md` from `resources/spec-template.md`. The spec must be implementation-ready. For genuine unknowns: in interactive mode, ask the user directly; in non-interactive mode, make a best-judgment assumption. All `[NEEDS CLARIFICATION]` markers must be resolved before the spec is considered implementation-ready.
 
 ## Report

@@ -18,10 +18,11 @@ Requires `spec.md`, `plan.md`, `.azure/deployment-plan.md`, `verify.md`. If `imp
 - For IaC changes, dry-run with `azd provision --preview` before `azd deploy`.
 - Never print or commit secrets; values must resolve via Key Vault / managed identity.
 - Stop local servers before deploying to avoid file locks.
-- Perform the azd deploy:
+- Perform the `azd deploy` and wait for completion:
 ```bash
-azd deploy -e <AZD environment> --debug > ./azure.log
+azd deploy -e <AZD environment>
 ```
+- After deployment succeeds, gather the deployed endpoint URLs from `azd show -e <AZD environment> -o json`.
 
 ### Common failures
 
