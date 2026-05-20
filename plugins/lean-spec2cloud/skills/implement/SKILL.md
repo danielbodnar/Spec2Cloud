@@ -28,9 +28,11 @@ Move `azure.yaml` and `infra/` into the workspace root. **Ask** before overwriti
 
 Implement per `./docs/plan.md`, keeping it updated with progress. On resume, re-read `./docs/plan.md` and continue from the next unchecked step.
 
+Create or update `./docs/implementation.md` to capture the architecture that was actually built and the key implementation details (components, data flow, key decisions, deviations from `plan.md`). Include one or more animated Mermaid `flowchart` diagrams to visualize the runtime architecture and request/data flow.
+
 **Pause if:** a task is unclear, implementation reveals a spec/plan gap, or any error/blocker is hit — report and wait, do not guess.
 
 ## Report
 
-Summarize the updated `./docs/plan.md`.
+Summarize the updated `./docs/implementation.md`.
 

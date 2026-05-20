@@ -19,11 +19,7 @@ Natural-language description, optionally prefixed with a sub-command:
 
 - Copy `.github/skills/specify/resources/copilot-instructions.md` to `.github/copilot-instructions.md` if missing.
 - Create/update `./docs/spec.md` from `resources/spec-template.md`. The spec must be implementation-ready. Mark genuine unknowns as `[NEEDS CLARIFICATION: <question>]` rather than guessing — later stages must resolve them.
-- Ask the user to approve/modify/reject each suggested skill and choose **automatic** or **manual** install. For automatic:
-  ```bash
-  gh skills install <repository> <skill> --dir .github/skills --agent github-copilot
-  ```
 
 ## Report
 
-Report updated `docs/spec.md` content and a summary of installed skills.
+Summarize the changes applied to `./docs/spec.md`, list any open `[NEEDS CLARIFICATION]` markers, and prompt the user to continue with `plan` (produce a plan only) or `implement` (plan, then implement in one pass).
