@@ -30,19 +30,18 @@ The **spec is the source of truth.** Any implementation change ⇒ update `./doc
 
 ## Stage → azd command
 
-| Stage     | azd command                                                                         |
-| --------- | ----------------------------------------------------------------------------------- |
-| Specify   | _none_                                                                              |
-| Plan      | identify the `azd` template to use                                                  |
-| Implement | `azd init -t <azd template>` - scaffold the infrastructure                          |
-| Verify    | `azd provision` - provision the Azure resources needed to verify the implementation |
-| Deploy    | `azd deploy` - deploy the implementation to Azure                                   |
+| Stage     | azd command                                                                                           |
+| --------- | ----------------------------------------------------------------------------------------------------- |
+| Specify   | _none_                                                                                                |
+| Plan      | identify the `azd` template to use                                                                    |
+| Implement | `azd init -t <azd template>` - scaffold the infrastructure                                            |
+| Verify    | `azd provision` - provision the Azure resources needed to verify the implementation                   |
+| Deploy    | `azd deploy` - deploy the implementation to Azure if `azd provision` has been run; `azd up` otherwise |
 
 ## Rules
 
 - Never plan before `./docs/spec.md` exists.
 - Never implement before `./docs/plan.md` exists.
-- Never verify before `./docs/implementation.md` exists.
-- Never deploy before `./docs/verify.md` exists.
+- Never verify or deploy before `./docs/implementation.md` exists.
 - All Azure provisioning and deployment goes through `azd`.
 - Information lives in `SKILL.md` OR a referenced template/resource file, not both.

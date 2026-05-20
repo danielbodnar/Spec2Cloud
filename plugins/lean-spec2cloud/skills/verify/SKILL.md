@@ -10,7 +10,7 @@ Requires `spec.md`. If `plan.md` is missing, auto-run `plan`. If `implementation
 ## Execute
 
 - Provision Azure dependencies with `azd provision` and wait for completion:
-  ```bash
+  ```
   azd provision -e <AZD environment>
   ```
 - Wire local config (`.env`, `local.settings.json`, `appsettings.Development.json`, …) using `azd env get-values -e <AZD environment>`. Show the user which keys are written (names only). Secrets must resolve via Key Vault references / managed identity — never as literals.
@@ -23,5 +23,5 @@ Requires `spec.md`. If `plan.md` is missing, auto-run `plan`. If `implementation
 
 ## Report
 
-Do not claim verification passed without ensuring that the local servers started successfully in this turn and reporting exit code + key output. Summarize the updated `./docs/verify.md`.
+Do not claim verification passed without ensuring that the local servers started successfully in this turn and reporting exit code + key output. Summarize the updated `./docs/verify.md`, and prompt the user to continue with `deploy`.
 

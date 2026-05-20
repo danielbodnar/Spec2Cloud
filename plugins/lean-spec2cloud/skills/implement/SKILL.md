@@ -45,5 +45,5 @@ Check the following and fix any gaps before claiming implementation is complete 
 
 ## Report
 
-Summarize the updated `./docs/implementation.md`.
+Summarize the updated `./docs/implementation.md` (architecture, key decisions, and any deviations from `plan.md`), report the result of the post-implementation checks, and prompt the user to continue with `verify` (local tests against provisioned Azure resources) or skip straight to `deploy` (provision and deploy to Azure with `azd up`).
 

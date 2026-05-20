@@ -19,5 +19,5 @@ Cycle these phases as needed (iterative, not linear). For highly ambiguous tasks
 
 ## Report
 
-Summarize `./docs/plan.md` and `./.azure/deployment-plan.md`.
+Summarize `./docs/plan.md` and `./.azure/deployment-plan.md`, and prompt the user to continue with `implement`.
 
