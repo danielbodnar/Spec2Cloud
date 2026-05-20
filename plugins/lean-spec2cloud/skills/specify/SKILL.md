@@ -15,6 +15,26 @@ Natural-language description, optionally prefixed with a sub-command:
 - (no sub-command) — treat input as create/update. If no input, ask the user; do not proceed without understanding intent.
 - `devcontainer` — copy `resources/devcontainer.json` to `.devcontainer/devcontainer.json` - don't overwrite if it already exists.
 
+## Spec2Cloud opinionated defaults
+
+- **Cloud Platform** - Use Azure for all cloud needs, including compute, data, and networking.
+- **AI platform** — Use Microsoft **Foundry** (a.k.a. Azure AI Foundry) for all AI needs: models, agents, evals, safety, and observability.
+- **Models** — Use large language models hosted on Foundry.
+- **Agent hosting** — Use Foundry **hosted agents** to implement AI agents.
+- **Agent code** — Use Python with the **Microsoft Agent Framework (MAF)** and **responses** protocol. Use the **GitHub Copilot SDK** (with BYOK from Foundry) when long tool loops are required. Store the agent code in `./src/agents/<agent-name>` by convention and update `./azure.yaml` to include service configuration (`host: azure.ai.agent`) for each agent.
+- **Agent tools** — Use the following tools to extend the agent's capabilities:
+  - **Code Interpreter** - Enables agents to write and run Python in a sandboxed environment. Supports data analysis, chart generation, and file processing. Use the Python SDK.
+  - **Function Calling** - Define custom functions the agent can invoke. Use Python.
+  - **MCP tool** — Remote Model Context Protocol (MCP) servers. Use Python with **FastMCP**, **streamable HTTP** transport, hosted on **Azure Container Apps**, and **always registered in Foundry as a Tools connection**. Agents call the MCP server via HTTP; Foundry routes calls from the agent to the tool and back. Store the MCP server code in `./src/mcp/<mcp-server-name>` by convention and update `./azure.yaml` to include service configuration for each mcp server.
+  - **Web Search tool** — real-time public web search with citations (default for web search); only when explicitly requested use the Bing Grounding tool that will do the web search via dedicated Bing resource.
+  - **Azure AI Search tool** — private data grounding with vector search
+- **Frontend** — Use typeScript with **React + Vite**, hosted on **Azure Container Apps**. Store the frontend code in `./src/frontend` by convention and update `./azure.yaml` to include service configuration for the frontend.
+- **Backend APIs** — Use python with **FastAPI**, calling MAF for model/agent interactions, hosted on **Azure Container Apps**. Store the backend code in `./src/backend` by convention and update `./azure.yaml` to include service configuration for the backend. Handle cors configuration between frontend and backend to run locally and when deployed.
+- **Identity & secrets** — Use Entra ID with `DefaultAzureCredential`; UAMI-bound, keyless RBAC. No connection strings or shared secrets. `.env` locally; Key Vault / app settings in Azure. User authentication is out of scope unless explicitly required by the user.
+- **Observability** — Use OpenTelemetry → Application Insights, wired through Foundry from day one.
+- **Data** - Use Cosmos DB for NoSQL when a data store is required by the user; otherwise, prefer stateless designs.
+- **Infra** — Use `azd` + Bicep with **Azure Verified Modules (AVM)**. Reuse an existing `azd` template before authoring one. Avoid duplicating resources such as Container Registry, Log Analytics or Application Insights. Private networking is out of scope unless explicitly required by the user.
+
 ## Execute
 
 - Copy `.github/skills/specify/resources/copilot-instructions.md` to `.github/copilot-instructions.md` if missing.

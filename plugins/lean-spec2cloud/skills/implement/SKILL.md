@@ -32,6 +32,16 @@ Create or update `./docs/implementation.md` to capture the architecture that was
 
 **Pause if:** a task is unclear, implementation reveals a spec/plan gap, or any error/blocker is hit — report and wait, do not guess.
 
+## Post-implementation checks
+
+Check the following and fix any gaps before claiming implementation is complete and ready for verify/deploy:
+
+- Check if `./azure.yaml` has service configuration (`host: azure.ai.agent`) for each implemented agent.
+- Check if `./azure.yaml` has service configuration for each MCP server.
+- Check if `./azure.yaml` has service configuration for the frontend.
+- Check if `./azure.yaml` has service configuration for the backend.
+- Check if CORS is configured between frontend and backend for both local and cloud environment (`./infra`).
+
 ## Report
 
 Summarize the updated `./docs/implementation.md`.
