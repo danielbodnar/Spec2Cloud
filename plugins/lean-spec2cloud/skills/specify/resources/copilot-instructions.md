@@ -6,15 +6,27 @@ The **spec is the source of truth.** Any implementation change ⇒ update `./doc
 
 ## Workspace layout
 
-- `./docs/spec.md` — requirements (single source of truth)
-- `./docs/plan.md` — implementation plan
-- `./.azure/deployment-plan.md` — Azure deployment plan
-- `./docs/implementation.md` — implementation notes
-- `./docs/verify.md` — local verification guide
-- `./docs/deploy.md` — Azure deployment + end-to-end test guide
-- `./src/` — application source
-- `./infra/` — IaC (Bicep/Terraform)
-- `./.github/skills/` — installed skills
+```
+./
+├── docs/
+│   ├── spec.md              # requirements (single source of truth)
+│   ├── plan.md              # implementation plan
+│   ├── implementation.md    # implementation notes
+│   ├── verify.md            # local verification guide
+│   └── deploy.md            # Azure deployment + end-to-end test guide
+├── .azure/
+│   └── deployment-plan.md   # Azure deployment plan
+├── src/                     # application source (sub-folders below are optional — include only those required by the spec)
+│   ├── frontend/            # frontend app (optional)
+│   ├── backend/             # backend services (optional)
+│   ├── mcp/                 # MCP servers, one per sub-folder (optional)
+│   │   └── <server-name>/
+│   └── agents/              # agents, one per sub-folder (optional)
+│       └── <agent-name>/
+├── infra/                   # IaC (Bicep/Terraform)
+└── .github/
+    └── skills/              # installed skills
+```
 
 ## Rules
 
