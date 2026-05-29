@@ -1,0 +1,2 @@
+
+Sample prompt: Create an Excalidraw diagram of an AI Gateway architecture using Microsoft Foundry as the provider, incorporating Foundry Hosted Agents and Azure OpenAI models (GPT-5.5). When exporting to SVG, apply animations to the curved arrows.

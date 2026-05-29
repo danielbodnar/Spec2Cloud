@@ -1,0 +1,2 @@
+
+Sample prompt: Create an Excalidraw diagram for an AI workload titled "Weather Agent - Getting Started". The architecture flows left to right: a frontend (Azure Container Apps, Node.js) connects to a backend (Azure Container Apps, Microsoft Agent Framework in Python), which connects to Microsoft Foundry running a hosted agent (Microsoft Agent Framework in Python) powered by Foundry models (gpt-5.5). Below the main flow, include an observability section containing Azure Monitor.
