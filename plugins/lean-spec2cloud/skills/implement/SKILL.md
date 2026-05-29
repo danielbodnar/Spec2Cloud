@@ -5,7 +5,7 @@ description: Use when a plan exists and the application source or IaC needs to b
 
 # Implement Skill
 
-Requires `spec.md`. If `plan.md` is missing, auto-run `plan`. Load workspace context per `copilot-instructions.md`.
+Requires `spec.md`. If `spec.md` is missing, auto-run `specify` with the user's prompt and then auto-run `plan`. If `plan.md` is missing, auto-run `plan`. Load workspace context per `copilot-instructions.md`.
 
 ## Scaffold (if `./infra/` is missing)
 

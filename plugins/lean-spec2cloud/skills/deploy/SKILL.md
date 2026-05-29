@@ -5,7 +5,7 @@ description: Use when local verification passed and the feature is ready to ship
 
 # Deploy Skill
 
-Requires `spec.md`, `plan.md`, `.azure/deployment-plan.md`, `verify.md`. If `implementation.md` is missing, run `implement` first. Load workspace context per `copilot-instructions.md`.
+Requires `spec.md`, `plan.md`, `.azure/deployment-plan.md`, `verify.md`. If `spec.md` is missing, auto-run `specify` with the user's prompt, then auto-run `plan` and `implement`. If `plan.md` is missing, auto-run `plan` and `implement`. If `implementation.md` is missing, auto-run `implement` first. Load workspace context per `copilot-instructions.md`.
 
 ## Execute
 

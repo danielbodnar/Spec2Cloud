@@ -5,7 +5,7 @@ description: Use when implementation exists and needs to be exercised locally ag
 
 # Verify Skill
 
-Requires `spec.md`. If `plan.md` is missing, auto-run `plan`. If `implementation.md` is missing, run `implement` first. If `./src/` is missing, return to Implement. Load workspace context per `copilot-instructions.md`.
+Requires `spec.md`. If `spec.md` is missing, auto-run `specify` with the user's prompt, then auto-run `plan` and `implement`. If `plan.md` is missing, auto-run `plan` and `implement`. If `implementation.md` is missing, auto-run `implement` first. If `./src/` is missing, return to Implement. Load workspace context per `copilot-instructions.md`.
 
 ## Execute
 
